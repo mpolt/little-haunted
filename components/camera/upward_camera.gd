@@ -1,13 +1,23 @@
 extends Camera2D
 class_name UpwardCamera
 
+## Einmalig, wenn das Ziel den Spielraum unter dem Bild verlassen hat.
+signal player_fell
+
 ## Anteil der Sichthöhe unter der Kameramitte, auf der der Player gehalten wird.
 ## Die Kamera rückt nur nach oben nach, nie nach unten.
 @export var anchor_ratio: float = 0.18
 
+## Anteil der Sichthöhe unter dem unteren Bildrand.
+## In diesem Streifen kann der Spieler noch eine Plattform erreichen.
+## Danach wird player_fell genau einmal gesendet.
+@export_range(0.0, 1.5, 0.01) var fall_margin_ratio: float = 0.25
+
 ## Ziel, dem die Kamera folgt. Im Inspektor zuweisen.
 ## Bleibt das Feld leer, wird ein Player in der aktuellen Szene gesucht.
 @export var target: Node2D
+
+var _fall_reported := false
 
 
 func _ready() -> void:
@@ -29,6 +39,21 @@ func _physics_process(_delta: float) -> void:
 	if target.global_position.y < follow_line:
 		global_position.y -= follow_line - target.global_position.y
 		force_update_scroll()
+
+	_check_fall(view_h)
+
+
+func _check_fall(view_h: float) -> void:
+	if _fall_reported or view_h <= 1.0:
+		return
+
+	var view_bottom := global_position.y + view_h * 0.5
+	var kill_y := view_bottom + view_h * fall_margin_ratio
+	if target.global_position.y <= kill_y:
+		return
+
+	_fall_reported = true
+	player_fell.emit()
 
 
 func _ensure_target() -> void:

@@ -4,8 +4,10 @@
 [ext_resource type="PackedScene" uid="uid://bjmwgr83so5ie" path="res://components/camera/upward_camera.tscn" id="1_xnkcx"]
 [ext_resource type="PackedScene" uid="uid://cpc5agx2ar2uv" path="res://tower/player/player.tscn" id="2_3fjlj"]
 [ext_resource type="PackedScene" uid="uid://dksng5mk512e8" path="res://tower/items/pumpkin.tscn" id="3_4ulc0"]
+[ext_resource type="Script" path="res://tower/tower.gd" id="4_tower"]
 
 [node name="Tower" type="Node2D" unique_id=1276826770]
+script = ExtResource("4_tower")
 
 [node name="UpwardCamera" parent="." unique_id=750025697 node_paths=PackedStringArray("target") instance=ExtResource("1_xnkcx")]
 target = NodePath("../Player")
