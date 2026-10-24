@@ -1,0 +1,16 @@
+[gd_scene format=3 uid="uid://dci6a56yyq57f"]
+
+[ext_resource type="PackedScene" uid="uid://h5msfvahi20x" path="res://tower/platforms/platform.tscn" id="2_ynwoe"]
+[ext_resource type="PackedScene" uid="uid://bh48hcwi01qod" path="res://tower/platforms/pumpkin_platform.tscn" id="3_ydtjt"]
+[ext_resource type="PackedScene" uid="uid://cpc5agx2ar2uv" path="res://tower/player/player.tscn" id="4_og3ws"]
+
+[node name="TestPlatforms" type="Node2D" unique_id=903056991]
+
+[node name="Platform" parent="." unique_id=308494935 instance=ExtResource("2_ynwoe")]
+position = Vector2(99, 1178)
+
+[node name="PumpkinPlatform" parent="." unique_id=667709501 instance=ExtResource("3_ydtjt")]
+position = Vector2(405, 1099)
+
+[node name="Player" parent="." unique_id=1335335397 instance=ExtResource("4_og3ws")]
+position = Vector2(97, 1009)
