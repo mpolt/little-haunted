@@ -21,10 +21,9 @@ const _FRAME_OFFSET := {
 ## Stärkster Boost, der in diesem Physikschritt schon vergeben wurde.
 var _boost_this_step := 0.0
 var _facing_left := false
-var _squash_tween: Tween
 
-@onready var _visual: Node2D = $Visual
 @onready var _sprite: AnimatedSprite2D = $Visual/AnimatedSprite2D
+@onready var _squash_animation: AnimationPlayer = $AnimationPlayer
 
 
 func _ready() -> void:
@@ -90,20 +89,6 @@ func _apply_frame(animation_name: StringName) -> void:
 func _play_squash(boost: float) -> void:
 	var amount := clampf(absf(boost) / absf(BOOST_DEFAULT), 0.7, 1.9)
 	var blend := inverse_lerp(0.7, 1.9, amount)
-	var duration := lerpf(0.24, 0.5, blend)
-	var squash := Vector2(lerpf(1.12, 1.4, blend), lerpf(0.82, 0.5, blend))
-	var stretch := Vector2(lerpf(0.94, 0.78, blend), lerpf(1.1, 1.36, blend))
-	var settle := Vector2(lerpf(1.03, 1.08, blend), lerpf(0.97, 0.92, blend))
-
-	if _squash_tween != null and _squash_tween.is_valid():
-		_squash_tween.kill()
-
-	_squash_tween = create_tween()
-	_squash_tween.tween_property(_visual, "scale", squash, duration * 0.16)\
-		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-	_squash_tween.tween_property(_visual, "scale", stretch, duration * 0.28)\
-		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
-	_squash_tween.tween_property(_visual, "scale", settle, duration * 0.22)\
-		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN_OUT)
-	_squash_tween.tween_property(_visual, "scale", Vector2.ONE, duration * 0.34)\
-		.set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
+	# 1.0 entspricht der Länge im AnimationPlayer. Stärkere Boosts laufen langsamer.
+	_squash_animation.speed_scale = lerpf(1.15, 0.55, blend)
+	_squash_animation.play(&"squash")

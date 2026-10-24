@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cpc5agx2ar2uv"]
+[gd_scene format=3 uid="uid://cpc5agx2ar2uv"]
 
 [ext_resource type="Script" uid="uid://cvgeydn1q2er6" path="res://tower/player/player.gd" id="1_x1ccs"]
 [ext_resource type="Texture2D" uid="uid://x3klp4026gln" path="res://tower/player/assets/idle.png" id="2_idle"]
@@ -12,7 +12,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("2_idle")
 }],
-"loop": true,
+"loop": 1,
 "name": &"default",
 "speed": 5.0
 }, {
@@ -20,7 +20,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("5_fall")
 }],
-"loop": true,
+"loop": 1,
 "name": &"fall",
 "speed": 5.0
 }, {
@@ -28,7 +28,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("3_left")
 }],
-"loop": true,
+"loop": 1,
 "name": &"jump_left",
 "speed": 5.0
 }, {
@@ -36,7 +36,7 @@ animations = [{
 "duration": 1.0,
 "texture": ExtResource("4_right")
 }],
-"loop": true,
+"loop": 1,
 "name": &"jump_right",
 "speed": 5.0
 }]
@@ -44,6 +44,45 @@ animations = [{
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ba1pi"]
 radius = 24.0
 height = 60.0
+
+[sub_resource type="Animation" id="Animation_reset"]
+resource_name = "RESET"
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_squash"]
+resource_name = "squash"
+length = 0.36
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:scale")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.06, 0.13, 0.24, 0.36),
+"transitions": PackedFloat32Array(0.3, 0.45, 0.65, 1, 1),
+"update": 0,
+"values": [Vector2(1, 1), Vector2(1.3, 0.78), Vector2(0.84, 1.22), Vector2(1.04, 0.97), Vector2(1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_squash"]
+_data = {
+&"RESET": SubResource("Animation_reset"),
+&"squash": SubResource("Animation_squash")
+}
 
 [node name="Player" type="CharacterBody2D" unique_id=1335335397]
 script = ExtResource("1_x1ccs")
@@ -54,10 +93,13 @@ script = ExtResource("1_x1ccs")
 position = Vector2(2, -56)
 scale = Vector2(0.120109186, 0.120109186)
 sprite_frames = SubResource("SpriteFrames_ba1pi")
-animation = &"default"
 autoplay = "default"
 offset = Vector2(5.5, -1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=953694775]
 position = Vector2(0, -30)
 shape = SubResource("CapsuleShape2D_ba1pi")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=483784694]
+root_node = NodePath("../Visual")
+libraries/ = SubResource("AnimationLibrary_squash")

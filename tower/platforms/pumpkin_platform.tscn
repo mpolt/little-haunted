@@ -90,7 +90,7 @@ shape = SubResource("RectangleShape2D_8wuni")
 
 [node name="PumpkinBooster" type="Area2D" parent="." unique_id=1847293651]
 script = ExtResource("1_ja2dj")
-boost = -1400.0
+boost = -1100.0
 
 [node name="Visual" type="Node2D" parent="PumpkinBooster" unique_id=912834761]
 position = Vector2(0, -1.85)
