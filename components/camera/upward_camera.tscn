@@ -1,0 +1,7 @@
+[gd_scene format=3 uid="uid://bjmwgr83so5ie"]
+
+[ext_resource type="Script" uid="uid://bkil5qgm3m2vl" path="res://components/camera/upward_camera.gd" id="1_vbkbb"]
+
+[node name="UpwardCamera" type="Camera2D" unique_id=750025697]
+script = ExtResource("1_vbkbb")
+metadata/_custom_type_script = "uid://bkil5qgm3m2vl"

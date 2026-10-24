@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://h5msfvahi20x"]
+
+[ext_resource type="Script" uid="uid://brlqt8tm4yc0g" path="res://tower/platforms/platform.gd" id="1_dqhmi"]
+[ext_resource type="Texture2D" uid="uid://bqr3ngsllt353" path="res://tower/platforms/assets/platform.png" id="1_s5tt0"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ba1pi"]
+size = Vector2(200, 10)
+
+[node name="Platform" type="Area2D" unique_id=308494935]
+script = ExtResource("1_dqhmi")
+
+[node name="Visual" type="Node2D" parent="." unique_id=618653195]
+
+[node name="Platform" type="Sprite2D" parent="Visual" unique_id=2050110968]
+position = Vector2(4.9999995, 10)
+scale = Vector2(0.11993398, 0.13494463)
+texture = ExtResource("1_s5tt0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1220221682]
+position = Vector2(2, -5)
+shape = SubResource("RectangleShape2D_ba1pi")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

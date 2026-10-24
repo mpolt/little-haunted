@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://brstjvtfd1cc3"]
+
+[ext_resource type="Script" uid="uid://d1inugkauh7so" path="res://tower/generation/platform_chunker.gd" id="1_chunker"]
+
+[node name="Platforms" type="Node2D" unique_id=1255898382]
+script = ExtResource("1_chunker")

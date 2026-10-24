@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://cpc5agx2ar2uv"]
+
+[ext_resource type="Script" uid="uid://cvgeydn1q2er6" path="res://tower/player/player.gd" id="1_x1ccs"]
+[ext_resource type="Texture2D" uid="uid://x3klp4026gln" path="res://tower/player/assets/idle.png" id="2_x1ccs"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ba1pi"]
+radius = 35.0
+height = 82.0
+
+[node name="Player" type="CharacterBody2D" unique_id=1335335397]
+script = ExtResource("1_x1ccs")
+
+[node name="Visual" type="Node2D" parent="." unique_id=524068526]
+
+[node name="Icon" type="Sprite2D" parent="Visual" unique_id=440260642]
+position = Vector2(0, -59)
+scale = Vector2(0.14740674, 0.14740664)
+texture = ExtResource("2_x1ccs")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=953694775]
+position = Vector2(0, -35)
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_ba1pi")
