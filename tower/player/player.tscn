@@ -1,23 +1,63 @@
-[gd_scene format=3 uid="uid://cpc5agx2ar2uv"]
+[gd_scene load_steps=8 format=3 uid="uid://cpc5agx2ar2uv"]
 
 [ext_resource type="Script" uid="uid://cvgeydn1q2er6" path="res://tower/player/player.gd" id="1_x1ccs"]
-[ext_resource type="Texture2D" uid="uid://x3klp4026gln" path="res://tower/player/assets/idle.png" id="2_x1ccs"]
+[ext_resource type="Texture2D" uid="uid://x3klp4026gln" path="res://tower/player/assets/idle.png" id="2_idle"]
+[ext_resource type="Texture2D" uid="uid://dprnjojhfuw67" path="res://tower/player/assets/jump_left.png" id="3_left"]
+[ext_resource type="Texture2D" uid="uid://knl2jgccf12c" path="res://tower/player/assets/jump_right.png" id="4_right"]
+[ext_resource type="Texture2D" uid="uid://eubs1k4fyxoh" path="res://tower/player/assets/fall.png" id="5_fall"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ba1pi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_idle")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("5_fall")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_left")
+}],
+"loop": true,
+"name": &"jump_left",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("4_right")
+}],
+"loop": true,
+"name": &"jump_right",
+"speed": 5.0
+}]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ba1pi"]
-radius = 35.0
-height = 82.0
+radius = 24.0
+height = 60.0
 
 [node name="Player" type="CharacterBody2D" unique_id=1335335397]
 script = ExtResource("1_x1ccs")
 
 [node name="Visual" type="Node2D" parent="." unique_id=524068526]
 
-[node name="Icon" type="Sprite2D" parent="Visual" unique_id=440260642]
-position = Vector2(0, -59)
-scale = Vector2(0.14740674, 0.14740664)
-texture = ExtResource("2_x1ccs")
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Visual" unique_id=893008471]
+position = Vector2(2, -56)
+scale = Vector2(0.120109186, 0.120109186)
+sprite_frames = SubResource("SpriteFrames_ba1pi")
+animation = &"default"
+autoplay = "default"
+offset = Vector2(5.5, -1)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=953694775]
-position = Vector2(0, -35)
-rotation = 1.5707964
+position = Vector2(0, -30)
 shape = SubResource("CapsuleShape2D_ba1pi")
