@@ -3,8 +3,11 @@
 [ext_resource type="PackedScene" uid="uid://h5msfvahi20x" path="res://tower/platforms/platform.tscn" id="2_ynwoe"]
 [ext_resource type="PackedScene" uid="uid://bh48hcwi01qod" path="res://tower/platforms/pumpkin_platform.tscn" id="3_ydtjt"]
 [ext_resource type="PackedScene" uid="uid://cpc5agx2ar2uv" path="res://tower/player/player.tscn" id="4_og3ws"]
+[ext_resource type="PackedScene" uid="uid://bmenubtnscn01" path="res://ui/menu_button.tscn" id="5_menu"]
 
 [node name="TestPlatforms" type="Node2D" unique_id=903056991]
+
+[node name="MenuButton" parent="." instance=ExtResource("5_menu")]
 
 [node name="Platform" parent="." unique_id=308494935 instance=ExtResource("2_ynwoe")]
 position = Vector2(99, 1178)
