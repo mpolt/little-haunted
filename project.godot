@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="LittleHaunted"
-run/main_scene="uid://bumhxj1x8dexj"
+run/main_scene="uid://dqp7ayk2lpoff"
 config/features=PackedStringArray("4.7", "GL Compatibility")
 config/icon="res://icon.svg"
 

@@ -31,6 +31,8 @@ func _ready() -> void:
 
 
 func open() -> void:
+	_hint.text = "Punkte %d\nSeelen %d" % [GameData.points, GameData.souls]
+	_hint.show()
 	_root.show()
 	_retry.grab_focus()
 

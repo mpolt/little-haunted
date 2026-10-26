@@ -1,0 +1,28 @@
+[gd_scene format=3 uid="uid://ba2erl2ucpq2p"]
+
+[ext_resource type="Script" uid="uid://v5g2vrs25jcf" path="res://tower/items/collectible.gd" id="1_col"]
+[ext_resource type="Texture2D" uid="uid://c4vot4og3ysnv" path="res://tower/items/assets/bell.png" id="2_tex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ba1pi"]
+size = Vector2(52, 63)
+
+[node name="Bell" type="Area2D"]
+collision_layer = 0
+script = ExtResource("1_col")
+points = 3
+vanish_style = 1
+glow = Color(0.572549, 0.760784, 0.490196, 1)
+halo_offset = Vector2(0, -40)
+halo_scale = Vector2(0.9, 1.1)
+halo_color = Color(1, 0.619608, 0.160784, 0.486275)
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite2D" parent="Visual"]
+position = Vector2(0, -40)
+scale = Vector2(0.06991869, 0.06991859)
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -34.5)
+shape = SubResource("RectangleShape2D_ba1pi")

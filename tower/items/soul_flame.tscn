@@ -1,0 +1,126 @@
+[gd_scene format=3 uid="uid://4i7m8vansjoi"]
+
+[ext_resource type="Script" uid="uid://v5g2vrs25jcf" path="res://tower/items/collectible.gd" id="1_col"]
+[ext_resource type="Texture2D" uid="uid://11etbah0at5j" path="res://tower/items/assets/soul_flame_sheet.png" id="2_tex"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 0, 400, 400)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1"]
+atlas = ExtResource("2_tex")
+region = Rect2(400, 0, 400, 400)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2"]
+atlas = ExtResource("2_tex")
+region = Rect2(800, 0, 400, 400)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3"]
+atlas = ExtResource("2_tex")
+region = Rect2(1200, 0, 400, 400)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 400, 400, 400)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5"]
+atlas = ExtResource("2_tex")
+region = Rect2(400, 400, 400, 400)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6"]
+atlas = ExtResource("2_tex")
+region = Rect2(800, 400, 400, 400)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7"]
+atlas = ExtResource("2_tex")
+region = Rect2(1200, 400, 400, 400)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_soul"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7")
+}],
+"loop": 1,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_soul"]
+radius = 24.0
+height = 54.0
+
+[sub_resource type="Gradient" id="Gradient_birth"]
+colors = PackedColorArray(0.55, 0.9, 1.55, 1, 0.2, 0.45, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_birth"]
+gradient = SubResource("Gradient_birth")
+
+[sub_resource type="Gradient" id="Gradient_life"]
+offsets = PackedFloat32Array(0, 0.55, 1)
+colors = PackedColorArray(0.55, 0.9, 1.55, 1, 0.2, 0.45, 1, 1, 0.05, 0.1, 0.45, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_life"]
+gradient = SubResource("Gradient_life")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_soul"]
+particle_flag_disable_z = true
+direction = Vector3(0, -1, 0)
+spread = 160.0
+initial_velocity_min = 40.0
+initial_velocity_max = 130.0
+gravity = Vector3(0, 180, 0)
+scale_min = 0.22
+scale_max = 0.65
+color_ramp = SubResource("GradientTexture1D_life")
+color_initial_ramp = SubResource("GradientTexture1D_birth")
+
+[node name="SoulFlame" type="Area2D" unique_id=1679700979]
+collision_layer = 0
+script = ExtResource("1_col")
+souls = 1
+burst_particles = NodePath("GPUParticles2D")
+
+[node name="Visual" type="Node2D" parent="." unique_id=1054896885]
+
+[node name="Sprite" type="AnimatedSprite2D" parent="Visual" unique_id=146986592]
+position = Vector2(-1, -39.999996)
+scale = Vector2(0.2, 0.2)
+sprite_frames = SubResource("SpriteFrames_soul")
+autoplay = "default"
+frame_progress = 0.27499002
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=336433307]
+position = Vector2(0, -27)
+shape = SubResource("CapsuleShape2D_soul")
+
+[node name="GPUParticles2D" type="GPUParticles2D" parent="." unique_id=440499427]
+position = Vector2(1, -40)
+emitting = false
+amount = 20
+lifetime = 0.55
+one_shot = true
+explosiveness = 1.0
+visibility_rect = Rect2(-100, -140, 200, 220)
+process_material = SubResource("ParticleProcessMaterial_soul")

@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cpc5agx2ar2uv" path="res://tower/player/player.tscn" id="2_3fjlj"]
 [ext_resource type="PackedScene" uid="uid://dksng5mk512e8" path="res://tower/items/pumpkin.tscn" id="3_4ulc0"]
 [ext_resource type="Script" path="res://tower/tower.gd" id="4_tower"]
+[ext_resource type="PackedScene" path="res://ui/hud/run_hud.tscn" id="5_hud"]
 
 [node name="Tower" type="Node2D" unique_id=1276826770]
 script = ExtResource("4_tower")
@@ -19,3 +20,5 @@ position = Vector2(148, 881)
 
 [node name="Pumpkin" parent="." unique_id=293966580 instance=ExtResource("3_4ulc0")]
 position = Vector2(482, 899)
+
+[node name="RunHud" parent="." instance=ExtResource("5_hud")]

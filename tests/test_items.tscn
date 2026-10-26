@@ -3,35 +3,62 @@
 [ext_resource type="PackedScene" uid="uid://h5msfvahi20x" path="res://tower/platforms/platform.tscn" id="1_7hsih"]
 [ext_resource type="PackedScene" uid="uid://bmenubtnscn01" path="res://ui/buttons/menu_button.tscn" id="2_3mt34"]
 [ext_resource type="PackedScene" uid="uid://cpc5agx2ar2uv" path="res://tower/player/player.tscn" id="3_3mt34"]
-[ext_resource type="PackedScene" uid="uid://dksng5mk512e8" path="res://tower/items/pumpkin.tscn" id="4_xhc7c"]
+[ext_resource type="PackedScene" uid="uid://dksng5mk512e8" path="res://tower/items/pumpkin.tscn" id="4_pumpkin"]
+[ext_resource type="PackedScene" uid="uid://ba2erl2ucpq2p" path="res://tower/items/bell.tscn" id="5_bell"]
+[ext_resource type="PackedScene" uid="uid://dcgx3yw1j4gke" path="res://tower/items/candy.tscn" id="6_candy"]
+[ext_resource type="PackedScene" uid="uid://dcgkyodr54gke" path="res://tower/items/candle.tscn" id="7_candle"]
+[ext_resource type="PackedScene" uid="uid://bra6tmnpnsjoi" path="res://tower/items/spider_net.tscn" id="8_spider"]
+[ext_resource type="PackedScene" uid="uid://4i7m8vansjoi" path="res://tower/items/soul_flame.tscn" id="9_soul"]
+[ext_resource type="PackedScene" path="res://ui/hud/run_hud.tscn" id="10_hud"]
 
-[node name="TestItems" type="Node2D" unique_id=1971086623]
+[node name="TestItems" type="Node2D" unique_id=1967180400]
 
-[node name="Platform" parent="." unique_id=308494935 instance=ExtResource("1_7hsih")]
+[node name="platforms" type="Node2D" parent="." unique_id=750528130]
+
+[node name="Platform" parent="platforms" unique_id=1661114630 instance=ExtResource("1_7hsih")]
 position = Vector2(100, 1202)
 
-[node name="Platform2" parent="." unique_id=1230909096 instance=ExtResource("1_7hsih")]
+[node name="Platform2" parent="platforms" unique_id=174281603 instance=ExtResource("1_7hsih")]
 position = Vector2(461, 1050)
 
-[node name="Platform3" parent="." unique_id=917531899 instance=ExtResource("1_7hsih")]
+[node name="Platform3" parent="platforms" unique_id=1464698163 instance=ExtResource("1_7hsih")]
 position = Vector2(98, 844)
 
-[node name="Platform4" parent="." unique_id=1204327855 instance=ExtResource("1_7hsih")]
+[node name="Platform4" parent="platforms" unique_id=42322914 instance=ExtResource("1_7hsih")]
 position = Vector2(470, 718)
 
-[node name="Platform5" parent="." unique_id=1524775338 instance=ExtResource("1_7hsih")]
+[node name="Platform5" parent="platforms" unique_id=998165558 instance=ExtResource("1_7hsih")]
 position = Vector2(97, 560)
 
-[node name="Platform6" parent="." unique_id=1843148434 instance=ExtResource("1_7hsih")]
+[node name="Platform6" parent="platforms" unique_id=42482302 instance=ExtResource("1_7hsih")]
 position = Vector2(480, 316)
 
-[node name="MenuButton" parent="." unique_id=759053654 instance=ExtResource("2_3mt34")]
+[node name="Platform7" parent="platforms" unique_id=774644835 instance=ExtResource("1_7hsih")]
+position = Vector2(320, 1204)
 
-[node name="Player" parent="." unique_id=1335335397 instance=ExtResource("3_3mt34")]
+[node name="MenuButton" parent="." unique_id=1677491539 instance=ExtResource("2_3mt34")]
+
+[node name="Player" parent="." unique_id=1086229822 instance=ExtResource("3_3mt34")]
 position = Vector2(52, 1129)
 
-[node name="Pumpkin" parent="." unique_id=293966580 instance=ExtResource("4_xhc7c")]
-position = Vector2(534, 1001)
+[node name="items" type="Node2D" parent="." unique_id=1313025246]
 
-[node name="Platform7" parent="." unique_id=55751016 instance=ExtResource("1_7hsih")]
-position = Vector2(320, 1204)
+[node name="Pumpkin" parent="items" unique_id=1036331999 instance=ExtResource("4_pumpkin")]
+position = Vector2(287, 1177)
+
+[node name="Bell" parent="items" unique_id=998810221 instance=ExtResource("5_bell")]
+position = Vector2(508, 985)
+
+[node name="Candy" parent="items" unique_id=2045438811 instance=ExtResource("6_candy")]
+position = Vector2(116, 781)
+
+[node name="Candle" parent="items" unique_id=1180151380 instance=ExtResource("7_candle")]
+position = Vector2(477, 697)
+
+[node name="SpiderNet" parent="items" unique_id=781740779 instance=ExtResource("8_spider")]
+position = Vector2(111, 564)
+
+[node name="SoulFlame" parent="items" unique_id=1684023286 instance=ExtResource("9_soul")]
+position = Vector2(499, 290)
+
+[node name="RunHud" parent="." instance=ExtResource("10_hud")]
