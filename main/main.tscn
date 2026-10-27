@@ -1,6 +1,9 @@
 [gd_scene format=3 uid="uid://bumhxj1x8dexj"]
 
 [ext_resource type="Script" uid="uid://dksqq2qducfha" path="res://main/main.gd" id="1_main"]
+[ext_resource type="Texture2D" uid="uid://dhesvqa1kqy3" path="res://main/assets/main_bg.png" id="2_pjrb6"]
+[ext_resource type="Texture2D" uid="uid://cydsjyi67jejw" path="res://main/assets/tower_button.png" id="3_xwkvk"]
+[ext_resource type="Texture2D" uid="uid://x3klp4026gln" path="res://tower/player/assets/idle.png" id="4_c651c"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_53q0u"]
 content_margin_left = 32.0
@@ -85,10 +88,120 @@ corner_radius_top_right = 14
 corner_radius_bottom_right = 14
 corner_radius_bottom_left = 14
 
+[sub_resource type="Animation" id="Animation_3wy1v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ghost2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(301, 884)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ghost2:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.10395817, 0.10395817)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ghost2:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [-0.2427]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ghost2:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.8627451)]
+}
+
+[sub_resource type="Animation" id="Animation_kfbq2"]
+resource_name = "to_tower"
+length = 8.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("ghost2:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4, 5, 6, 7, 8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(301, 884), Vector2(166, 839.00006), Vector2(89, 751.00006), Vector2(331, 634), Vector2(300, 558.00006), Vector2(447, 488.00006), Vector2(564, 445.00006), Vector2(458, 363), Vector2(516, 290.00003)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("ghost2:scale")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4, 5, 6, 7, 8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0.10395817, 0.10395817), Vector2(0.09987, 0.09987), Vector2(0.09188, 0.09188), Vector2(0.08125, 0.08125), Vector2(0.07435, 0.07435), Vector2(0.06799, 0.06799), Vector2(0.06408, 0.06408), Vector2(0.05663, 0.05663), Vector2(0.05, 0.05)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("ghost2:rotation")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1, 2, 3, 4, 5, 6, 7, 8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [-0.017453292, -0.1709, 0.2295, -0.1005, 0.2302, 0.2398, -0.2027, 0.162, 0.162]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("ghost2:modulate")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 6, 8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0.8627451), Color(1, 1, 1, 0.5058824)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4dugh"]
+_data = {
+&"RESET": SubResource("Animation_3wy1v"),
+&"to_tower": SubResource("Animation_kfbq2")
+}
+
 [node name="Main" type="Node2D" unique_id=524292778]
 script = ExtResource("1_main")
 
 [node name="UI" type="CanvasLayer" parent="." unique_id=334681043]
+visible = false
 
 [node name="Background" type="ColorRect" parent="UI" unique_id=257807783]
 anchors_preset = 15
@@ -115,7 +228,7 @@ theme_override_styles/panel = SubResource("StyleBoxFlat_53q0u")
 
 [node name="Body" type="VBoxContainer" parent="UI/Center/VSplitContainer/Panel" unique_id=1342863215]
 layout_mode = 2
-theme_override_constants/separation = 28
+theme_override_constants/separation = 16
 
 [node name="Title" type="Label" parent="UI/Center/VSplitContainer/Panel/Body" unique_id=1639473777]
 layout_mode = 2
@@ -137,34 +250,67 @@ theme_override_styles/normal = SubResource("StyleBoxFlat_pjrb6")
 theme_override_styles/pressed = SubResource("StyleBoxFlat_xwkvk")
 theme_override_styles/hover = SubResource("StyleBoxFlat_c651c")
 theme_override_styles/focus = SubResource("StyleBoxFlat_3wy1v")
-text = "Start"
+text = "Turm"
 
-[node name="OptionsButton" type="Button" parent="UI/Center/VSplitContainer/Panel/Body"]
+[node name="OptionsButton" type="Button" parent="UI/Center/VSplitContainer/Panel/Body" unique_id=379933436]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 64)
 layout_mode = 2
 theme_override_font_sizes/font_size = 22
 text = "Optionen"
 
-[node name="PanelContainer" type="PanelContainer" parent="UI/Center/VSplitContainer" unique_id=1768041067]
+[node name="TestPlatformsButton" type="Button" parent="UI/Center/VSplitContainer/Panel/Body" unique_id=564957336]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Test Plattformen"
 
-[node name="VBoxContainer" type="VBoxContainer" parent="UI/Center/VSplitContainer/PanelContainer" unique_id=98348984]
+[node name="TestItemsButton" type="Button" parent="UI/Center/VSplitContainer/Panel/Body" unique_id=1529939025]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
 layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Test Gegenstände"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1508054859]
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=1323631986]
+offset_right = 575.0
+offset_bottom = 1249.3872
+texture = ExtResource("2_pjrb6")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer" unique_id=1705223646]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -281.0
+offset_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 0
 alignment = 1
 
-[node name="Label" type="Label" parent="UI/Center/VSplitContainer/PanelContainer/VBoxContainer" unique_id=1017596715]
+[node name="TowerButton" type="TextureButton" parent="CanvasLayer/HBoxContainer" unique_id=1920941823]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(236.57, 227)
 layout_mode = 2
-text = "Tests"
-horizontal_alignment = 1
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("3_xwkvk")
+texture_pressed = ExtResource("3_xwkvk")
+ignore_texture_size = true
+stretch_mode = 5
 
-[node name="TPlatformsButton" type="Button" parent="UI/Center/VSplitContainer/PanelContainer/VBoxContainer" unique_id=564957336]
-layout_mode = 2
-text = "TPlatformsButton"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer" unique_id=1407098517]
+libraries/ = SubResource("AnimationLibrary_4dugh")
+speed_scale = 2.225
 
-[node name="TItemsButton" type="Button" parent="UI/Center/VSplitContainer/PanelContainer/VBoxContainer" unique_id=1529939025]
-layout_mode = 2
-text = "TItemsButton"
-
-[connection signal="pressed" from="UI/Center/VSplitContainer/PanelContainer/VBoxContainer/TPlatformsButton" to="." method="_on_t_platforms_button_pressed"]
-[connection signal="pressed" from="UI/Center/VSplitContainer/PanelContainer/VBoxContainer/TItemsButton" to="." method="_on_t_items_button_pressed"]
+[node name="ghost2" type="Sprite2D" parent="CanvasLayer" unique_id=2100009507]
+modulate = Color(1, 1, 1, 0.8627451)
+position = Vector2(301, 884)
+rotation = -0.2427
+scale = Vector2(0.10395817, 0.10395817)
+texture = ExtResource("4_c651c")

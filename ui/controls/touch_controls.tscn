@@ -1,8 +1,8 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://y41hkyq6wubh"]
 
-[ext_resource type="Script" path="res://ui/controls/touch_controls.gd" id="1_touch"]
+[ext_resource type="Script" uid="uid://jfxrn66dqi76" path="res://ui/controls/touch_controls.gd" id="1_touch"]
 
-[node name="TouchControls" type="Control"]
+[node name="TouchControls" type="Control" unique_id=705389309]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -12,22 +12,21 @@ grow_vertical = 2
 mouse_filter = 2
 script = ExtResource("1_touch")
 
-[node name="Joystick" type="Control" parent="."]
+[node name="Joystick" type="Control" parent="." unique_id=792238467]
 unique_name_in_owner = true
-layout_mode = 0
-mouse_filter = 0
+anchors_preset = 0
 
-[node name="JoystickBase" type="Panel" parent="Joystick"]
-unique_name_in_owner = true
-layout_mode = 0
-mouse_filter = 2
-
-[node name="JoystickKnob" type="Panel" parent="Joystick"]
+[node name="JoystickBase" type="Panel" parent="Joystick" unique_id=2081403557]
 unique_name_in_owner = true
 layout_mode = 0
 mouse_filter = 2
 
-[node name="Pads" type="MarginContainer" parent="."]
+[node name="JoystickKnob" type="Panel" parent="Joystick" unique_id=1708440687]
+unique_name_in_owner = true
+layout_mode = 0
+mouse_filter = 2
+
+[node name="Pads" type="MarginContainer" parent="." unique_id=716009615]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 12
@@ -42,11 +41,11 @@ theme_override_constants/margin_left = 24
 theme_override_constants/margin_right = 24
 theme_override_constants/margin_bottom = 28
 
-[node name="Row" type="HBoxContainer" parent="Pads"]
+[node name="Row" type="HBoxContainer" parent="Pads" unique_id=112676151]
 layout_mode = 2
 theme_override_constants/separation = 24
 
-[node name="LeftPad" type="Button" parent="Pads/Row"]
+[node name="LeftPad" type="Button" parent="Pads/Row" unique_id=1048132268]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 160)
 layout_mode = 2
@@ -54,7 +53,7 @@ size_flags_horizontal = 3
 focus_mode = 0
 text = "◀"
 
-[node name="RightPad" type="Button" parent="Pads/Row"]
+[node name="RightPad" type="Button" parent="Pads/Row" unique_id=206055365]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(0, 160)
 layout_mode = 2

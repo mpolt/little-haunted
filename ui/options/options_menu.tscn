@@ -1,13 +1,16 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://cfchyg65ebrpg"]
 
-[ext_resource type="Script" path="res://ui/options/options_menu.gd" id="1_options"]
+[ext_resource type="Script" uid="uid://jxieaaio8fre" path="res://ui/options/options_menu.gd" id="1_options"]
+[ext_resource type="Texture2D" uid="uid://dwtbm6bt5uvn5" path="res://ui/options/assets/icon_keyboard.png" id="2_keyboard"]
+[ext_resource type="Texture2D" uid="uid://7k0mpr3rooai" path="res://ui/options/assets/icon_joystik.png" id="3_joystick"]
+[ext_resource type="Texture2D" uid="uid://c7wdjk4kh8qnw" path="res://ui/options/assets/icon_touch.png" id="4_touch"]
 
-[node name="OptionsMenu" type="CanvasLayer"]
+[node name="OptionsMenu" type="CanvasLayer" unique_id=1362323720]
 process_mode = 3
 layer = 12
 script = ExtResource("1_options")
 
-[node name="Root" type="Control" parent="."]
+[node name="Root" type="Control" parent="." unique_id=326351129]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -15,69 +18,282 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Dim" type="ColorRect" parent="Root"]
+[node name="Dim" type="ColorRect" parent="Root" unique_id=1672696798]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.05, 0.03, 0.08, 0.78)
+color = Color(0.035, 0.02, 0.06, 0.45)
 
-[node name="Center" type="CenterContainer" parent="Root"]
+[node name="Center" type="CenterContainer" parent="Root" unique_id=1610512679]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 
-[node name="Panel" type="PanelContainer" parent="Root/Center"]
-custom_minimum_size = Vector2(420, 0)
+[node name="Panel" type="PanelContainer" parent="Root/Center" unique_id=1897035878]
+custom_minimum_size = Vector2(508, 0)
 layout_mode = 2
 
-[node name="Body" type="VBoxContainer" parent="Root/Center/Panel"]
+[node name="Body" type="VBoxContainer" parent="Root/Center/Panel" unique_id=941181645]
 layout_mode = 2
-theme_override_constants/separation = 16
+theme_override_constants/separation = 14
 
-[node name="Title" type="Label" parent="Root/Center/Panel/Body"]
+[node name="Header" type="HBoxContainer" parent="Root/Center/Panel/Body" unique_id=2118734321]
 layout_mode = 2
+theme_override_constants/separation = 0
+
+[node name="Balance" type="Control" parent="Root/Center/Panel/Body/Header" unique_id=2021354565]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+mouse_filter = 2
+
+[node name="Title" type="Label" parent="Root/Center/Panel/Body/Header" unique_id=1418078410]
+layout_mode = 2
+size_flags_horizontal = 3
 theme_override_colors/font_color = Color(0.96, 0.93, 0.88, 1)
-theme_override_font_sizes/font_size = 40
-text = "Optionen"
-horizontal_alignment = 1
-
-[node name="Hint" type="Label" parent="Root/Center/Panel/Body"]
-layout_mode = 2
-theme_override_colors/font_color = Color(0.78, 0.73, 0.84, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_font_sizes/font_size = 30
 text = "Steuerung wählen"
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="KeyboardButton" type="Button" parent="Root/Center/Panel/Body"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 64)
+[node name="CloseSlot" type="Control" parent="Root/Center/Panel/Body/Header"]
+custom_minimum_size = Vector2(40, 40)
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+size_flags_horizontal = 4
+size_flags_vertical = 4
+mouse_filter = 2
+
+[node name="CloseButton" type="Button" parent="Root/Center/Panel/Body/Header/CloseSlot" unique_id=2142585410]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 14.0
+offset_top = -14.0
+offset_right = 54.0
+offset_bottom = 26.0
+tooltip_text = "Schließen"
+theme_override_font_sizes/font_size = 20
+text = "×"
+
+[node name="Choices" type="HBoxContainer" parent="Root/Center/Panel/Body" unique_id=1198906178]
+layout_mode = 2
+theme_override_constants/separation = 8
+alignment = 1
+
+[node name="KeyboardButton" type="Button" parent="Root/Center/Panel/Body/Choices" unique_id=354271094]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 168)
+layout_mode = 2
+size_flags_horizontal = 3
+tooltip_text = "Tastatur"
+
+[node name="Column" type="VBoxContainer" parent="Root/Center/Panel/Body/Choices/KeyboardButton" unique_id=1347796749]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 10.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Root/Center/Panel/Body/Choices/KeyboardButton/Column" unique_id=12542208]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+texture = ExtResource("2_keyboard")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="Root/Center/Panel/Body/Choices/KeyboardButton/Column" unique_id=1648103316]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
 text = "Tastatur"
+horizontal_alignment = 1
 
-[node name="JoystickButton" type="Button" parent="Root/Center/Panel/Body"]
+[node name="Check" type="Panel" parent="Root/Center/Panel/Body/Choices/KeyboardButton" unique_id=755442430]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -20.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 20.0
+mouse_filter = 2
+
+[node name="Mark" type="Label" parent="Root/Center/Panel/Body/Choices/KeyboardButton/Check" unique_id=1280795316]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.97, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "✓"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="JoystickButton" type="Button" parent="Root/Center/Panel/Body/Choices" unique_id=666725156]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 168)
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
+size_flags_horizontal = 3
+tooltip_text = "Joystick"
+
+[node name="Column" type="VBoxContainer" parent="Root/Center/Panel/Body/Choices/JoystickButton" unique_id=951653889]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 10.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Root/Center/Panel/Body/Choices/JoystickButton/Column" unique_id=564070028]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+texture = ExtResource("3_joystick")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="Root/Center/Panel/Body/Choices/JoystickButton/Column" unique_id=1526896030]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
 text = "Joystick"
+horizontal_alignment = 1
 
-[node name="TouchButton" type="Button" parent="Root/Center/Panel/Body"]
-unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 64)
-layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "Zwei Flächen"
+[node name="Check" type="Panel" parent="Root/Center/Panel/Body/Choices/JoystickButton" unique_id=1706759688]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -20.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 20.0
+mouse_filter = 2
 
-[node name="CloseButton" type="Button" parent="Root/Center/Panel/Body"]
+[node name="Mark" type="Label" parent="Root/Center/Panel/Body/Choices/JoystickButton/Check" unique_id=1443025750]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.97, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "✓"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TouchButton" type="Button" parent="Root/Center/Panel/Body/Choices" unique_id=1836042815]
 unique_name_in_owner = true
-custom_minimum_size = Vector2(0, 64)
+custom_minimum_size = Vector2(0, 168)
 layout_mode = 2
-theme_override_font_sizes/font_size = 22
-text = "Schließen"
+size_flags_horizontal = 3
+tooltip_text = "Touch"
+
+[node name="Column" type="VBoxContainer" parent="Root/Center/Panel/Body/Choices/TouchButton" unique_id=1121684512]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 8.0
+offset_top = 10.0
+offset_right = -8.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme_override_constants/separation = 4
+
+[node name="Icon" type="TextureRect" parent="Root/Center/Panel/Body/Choices/TouchButton/Column" unique_id=1395445101]
+custom_minimum_size = Vector2(0, 96)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+mouse_filter = 2
+texture = ExtResource("4_touch")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="Root/Center/Panel/Body/Choices/TouchButton/Column" unique_id=1929116834]
+layout_mode = 2
+theme_override_font_sizes/font_size = 16
+text = "Touch"
+horizontal_alignment = 1
+
+[node name="Check" type="Panel" parent="Root/Center/Panel/Body/Choices/TouchButton" unique_id=2147338040]
+visible = false
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -20.0
+offset_top = -8.0
+offset_right = 8.0
+offset_bottom = 20.0
+mouse_filter = 2
+
+[node name="Mark" type="Label" parent="Root/Center/Panel/Body/Choices/TouchButton/Check" unique_id=801599139]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.97, 0.95, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "✓"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HintRow" type="HBoxContainer" parent="Root/Center/Panel/Body" unique_id=2096714632]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="LineLeft" type="ColorRect" parent="Root/Center/Panel/Body/HintRow" unique_id=794466290]
+custom_minimum_size = Vector2(28, 2)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(0.78, 0.73, 0.84, 0.45)
+
+[node name="Hint" type="Label" parent="Root/Center/Panel/Body/HintRow" unique_id=88525808]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.78, 0.73, 0.84, 1)
+theme_override_font_sizes/font_size = 15
+text = "Links und rechts tippen zum Bewegen"
+horizontal_alignment = 1
+
+[node name="LineRight" type="ColorRect" parent="Root/Center/Panel/Body/HintRow" unique_id=1348224042]
+custom_minimum_size = Vector2(28, 2)
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 4
+mouse_filter = 2
+color = Color(0.78, 0.73, 0.84, 0.45)

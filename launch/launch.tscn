@@ -1,0 +1,297 @@
+[gd_scene format=3 uid="uid://brxdwe1snd3j5"]
+
+[ext_resource type="Script" uid="uid://blqv5x7tfvw45" path="res://launch/launch.gd" id="1_launch"]
+[ext_resource type="Texture2D" uid="uid://b8btgrnk3o661" path="res://launch/assets/launch_bg.png" id="2_bg"]
+[ext_resource type="Texture2D" uid="uid://c5ckv82i3f4br" path="res://launch/assets/logo.png" id="3_logo"]
+[ext_resource type="Texture2D" uid="uid://x3klp4026gln" path="res://tower/player/assets/idle.png" id="4_ghost"]
+[ext_resource type="Texture2D" uid="uid://ct42y247y4be8" path="res://launch/assets/play_button.png" id="5_play"]
+[ext_resource type="Texture2D" uid="uid://b0ssi424r574h" path="res://launch/assets/secondary_button.png" id="6_settings"]
+
+[sub_resource type="Animation" id="Animation_biub3"]
+length = 0.001
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Screen/GhostAnchor/GhostMotion/ghost:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(51, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Screen/GhostAnchor/GhostMotion/ghost:position:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(305, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CanvasLayer/Screen/GhostAnchor/GhostMotion/ghost:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0.165, 0.165)]
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CanvasLayer/Screen/GhostAnchor/GhostMotion/ghost:rotation")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0),
+"points": PackedFloat32Array(-0.184699, -0.25, 0, 0.25, 0),
+"times": PackedFloat32Array(0)
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CanvasLayer/Screen/LogoAnchor/LogoMotion:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(177, 118)]
+}
+
+[sub_resource type="Animation" id="Animation_float"]
+resource_name = "float"
+length = 8.0
+loop_mode = 1
+step = 0.05
+tracks/0/type = "bezier"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Screen/LogoAnchor/LogoMotion:scale:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
+"points": PackedFloat32Array(1, -0.666667, 0, 0.666667, 0, 1.025, -0.666667, 0, 0.666667, 0, 1, -0.666667, 0, 0.666667, 0, 1.025, -0.666667, 0, 0.666667, 0, 1, -0.666667, 0, 0.666667, 0),
+"times": PackedFloat32Array(0, 2, 4, 6, 8)
+}
+tracks/1/type = "bezier"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CanvasLayer/Screen/LogoAnchor/LogoMotion:scale:y")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0),
+"points": PackedFloat32Array(1, -0.666667, 0, 0.666667, 0, 1.025, -0.666667, 0, 0.666667, 0, 1, -0.666667, 0, 0.666667, 0, 1.025, -0.666667, 0, 0.666667, 0, 1, -0.666667, 0, 0.666667, 0),
+"times": PackedFloat32Array(0, 2, 4, 6, 8)
+}
+tracks/2/type = "bezier"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("CanvasLayer/Screen/GhostAnchor/GhostMotion/ghost:position:x")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+"points": PackedFloat32Array(51, -0.446102, 5.833333, 0.21911, -5.833333, -54, -0.21911, -1.666667, 0.222924, 1.666667, 61, -0.222924, -19.833332, 0.105064, 19.833332, 65, -0.105064, -22, 0.301549, 22, 193, -0.301549, -21.5, 0.091625, 21.5, 194, -0.091625, -3.666667, 0.428665, 3.666667, 215, -0.428665, 4.333333, 0.273643, -4.333333, 168, -0.273643, 39, 0.577985, -39, -19, -0.577985, 19.5, 0.446102, -19.5, 51, -0.446102, 5.833333, 0.21911, -5.833333),
+"times": PackedFloat32Array(0, 0.657329, 1.326102, 1.641294, 2.545941, 2.820817, 4.106811, 4.927741, 6.661695, 8)
+}
+tracks/3/type = "bezier"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("CanvasLayer/Screen/GhostAnchor/GhostMotion/ghost:position:y")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+"points": PackedFloat32Array(305, -0.446102, -23.666668, 0.21911, 23.666668, 245, -0.21911, 11.333333, 0.222924, -11.333333, 237, -0.222924, 9.833333, 0.105064, -9.833333, 186, -0.105064, 14.666667, 0.301549, -14.666667, 149, -0.301549, 12.333333, 0.091625, -12.333333, 112, -0.091625, 28.5, 0.428665, -28.5, -22, -0.428665, 12.333333, 0.273643, -12.333333, 38, -0.273643, -20.833332, 0.577985, 20.833332, 103, -0.577985, -44.5, 0.446102, 44.5, 305, -0.446102, -23.666668, 0.21911, 23.666668),
+"times": PackedFloat32Array(0, 0.657329, 1.326102, 1.641294, 2.545941, 2.820817, 4.106811, 4.927741, 6.661695, 8)
+}
+tracks/4/type = "bezier"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("CanvasLayer/Screen/GhostAnchor/GhostMotion/ghost:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+"points": PackedFloat32Array(-0.184699, -0.446102, -0.035362, 0.21911, 0.017369, 0.05351, -0.21911, -0.058681, 0.222924, 0.059703, 0.170452, -0.222924, -0.022229, 0.105064, 0.010476, 0.151625, -0.105064, 0.002036, 0.301549, -0.005845, 0.146809, -0.301549, 0.033173, 0.091625, -0.01008, 0.021866, -0.091625, 0.020358, 0.428665, -0.095245, -0.2, -0.428665, 0.044178, 0.273643, -0.028202, -0.195273, -0.273643, -0.010209, 0.577985, 0.021564, -0.104681, -0.577985, -0.001989, 0.446102, 0.001535, -0.184699, -0.446102, -0.035362, 0.21911, 0.017369),
+"times": PackedFloat32Array(0, 0.657329, 1.326102, 1.641294, 2.545941, 2.820817, 4.106811, 4.927741, 6.661695, 8)
+}
+tracks/5/type = "bezier"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("CanvasLayer/Screen/GhostAnchor/GhostMotion/ghost:scale:x")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+"points": PackedFloat32Array(0.165, -0.446102, -0.006863, 0.21911, 0.006863, 0.147601, -0.21911, 0.003286, 0.222924, -0.003286, 0.145281, -0.222924, 0.002851, 0.105064, -0.002851, 0.130492, -0.105064, 0.004253, 0.301549, -0.004253, 0.119763, -0.301549, 0.003576, 0.091625, -0.003576, 0.109033, -0.091625, 0.008264, 0.428665, -0.008264, 0.070176, -0.428665, 0.003576, 0.273643, -0.003576, 0.087575, -0.273643, -0.006041, 0.577985, 0.006041, 0.106424, -0.577985, -0.012904, 0.446102, 0.012904, 0.165, -0.446102, -0.006863, 0.21911, 0.006863),
+"times": PackedFloat32Array(0, 0.657329, 1.326102, 1.641294, 2.545941, 2.820817, 4.106811, 4.927741, 6.661695, 8)
+}
+tracks/6/type = "bezier"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("CanvasLayer/Screen/GhostAnchor/GhostMotion/ghost:scale:y")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"handle_modes": PackedInt32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0),
+"points": PackedFloat32Array(0.165, -0.446102, -0.006863, 0.21911, 0.006863, 0.147601, -0.21911, 0.003286, 0.222924, -0.003286, 0.145281, -0.222924, 0.002851, 0.105064, -0.002851, 0.130492, -0.105064, 0.004253, 0.301549, -0.004253, 0.119763, -0.301549, 0.003576, 0.091625, -0.003576, 0.109033, -0.091625, 0.008264, 0.428665, -0.008264, 0.070176, -0.428665, 0.003576, 0.273643, -0.003576, 0.087575, -0.273643, -0.006041, 0.577985, 0.006041, 0.106424, -0.577985, -0.012904, 0.446102, 0.012904, 0.165, -0.446102, -0.006863, 0.21911, 0.006863),
+"times": PackedFloat32Array(0, 0.657329, 1.326102, 1.641294, 2.545941, 2.820817, 4.106811, 4.927741, 6.661695, 8)
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("CanvasLayer/Screen/LogoAnchor/LogoMotion:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0, 2, 4, 6, 8),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(177, 118), Vector2(177, 128.37), Vector2(177, 118), Vector2(177, 128.37), Vector2(177, 118)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_float"]
+_data = {
+&"RESET": SubResource("Animation_biub3"),
+&"float": SubResource("Animation_float")
+}
+
+[node name="Launch" type="Node2D" unique_id=1858099914]
+script = ExtResource("1_launch")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=398641922]
+
+[node name="Screen" type="Control" parent="CanvasLayer" unique_id=174694379]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+
+[node name="launch_bg" type="TextureRect" parent="CanvasLayer/Screen" unique_id=104203486]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_bg")
+expand_mode = 1
+stretch_mode = 6
+
+[node name="LogoAnchor" type="Control" parent="CanvasLayer/Screen" unique_id=1071952539]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -177.0
+offset_top = 64.0
+offset_right = 177.0
+offset_bottom = 300.0
+grow_horizontal = 2
+mouse_filter = 2
+
+[node name="LogoMotion" type="Node2D" parent="CanvasLayer/Screen/LogoAnchor" unique_id=1887522315]
+position = Vector2(177, 118)
+
+[node name="logo" type="Sprite2D" parent="CanvasLayer/Screen/LogoAnchor/LogoMotion" unique_id=40745685]
+position = Vector2(0, -11)
+scale = Vector2(0.23092, 0.23092)
+texture = ExtResource("3_logo")
+
+[node name="GhostAnchor" type="Control" parent="CanvasLayer/Screen" unique_id=1758366039]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -101.0
+offset_top = -131.0
+offset_right = 101.0
+offset_bottom = 131.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="GhostMotion" type="Node2D" parent="CanvasLayer/Screen/GhostAnchor" unique_id=2140425954]
+position = Vector2(101, 131)
+
+[node name="ghost" type="Sprite2D" parent="CanvasLayer/Screen/GhostAnchor/GhostMotion" unique_id=1787879176]
+position = Vector2(51, 305)
+rotation = -0.184699
+scale = Vector2(0.165, 0.165)
+texture = ExtResource("4_ghost")
+
+[node name="PlayButton" type="TextureButton" parent="CanvasLayer/Screen" unique_id=625547318]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -158.0
+offset_top = -245.0
+offset_right = 158.0
+offset_bottom = -131.0
+grow_horizontal = 2
+grow_vertical = 0
+texture_normal = ExtResource("5_play")
+texture_pressed = ExtResource("5_play")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="SettingsButton" type="TextureButton" parent="CanvasLayer/Screen" unique_id=1386404770]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -94.5
+offset_top = -103.0
+offset_right = 94.5
+offset_bottom = -40.0
+grow_horizontal = 2
+grow_vertical = 0
+texture_normal = ExtResource("6_settings")
+texture_pressed = ExtResource("6_settings")
+ignore_texture_size = true
+stretch_mode = 5
+
+[node name="Caption" type="Label" parent="CanvasLayer/Screen/SettingsButton" unique_id=1077850608]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 22.0
+offset_right = -22.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.96, 0.94, 1, 1)
+theme_override_colors/font_outline_color = Color(0.12, 0.06, 0.28, 0.9)
+theme_override_constants/outline_size = 3
+theme_override_font_sizes/font_size = 18
+text = "Einstellungen"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=208238107]
+libraries/ = SubResource("AnimationLibrary_float")
+autoplay = &"float"
+speed_scale = 0.5
