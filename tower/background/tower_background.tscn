@@ -1,0 +1,89 @@
+[gd_scene format=3 uid="uid://n2k0rkl561ts"]
+
+[ext_resource type="Script" uid="uid://be3n4yvs6gae6" path="res://tower/background/tower_background.gd" id="1_bg"]
+[ext_resource type="Texture2D" uid="uid://cwhhlurobu0s1" path="res://tower/background/assets/sky_far.png" id="2_sky"]
+[ext_resource type="Texture2D" uid="uid://c24g3eyqsuib0" path="res://tower/background/assets/nebula.png" id="3_nebula"]
+[ext_resource type="Texture2D" uid="uid://cqfsemfabqnob" path="res://tower/background/assets/moon_sparse.png" id="4_moon"]
+[ext_resource type="Texture2D" uid="uid://vxx26ep4wykn" path="res://tower/background/assets/clouds.png" id="5_x83gl"]
+[ext_resource type="Texture2D" uid="uid://kycwva4fbcei" path="res://tower/background/assets/castles_mist.png" id="6_ttthl"]
+[ext_resource type="Texture2D" uid="uid://cex02yd8inhnf" path="res://tower/background/assets/castles_dark.png" id="7_8nvrq"]
+[ext_resource type="Texture2D" uid="uid://tpwh6t55m5iw" path="res://tower/background/assets/trees.png" id="8_dsrkw"]
+
+[node name="TowerBackground" type="Node2D" unique_id=1074578212]
+z_index = -100
+script = ExtResource("1_bg")
+
+[node name="SkyFar" type="Parallax2D" parent="." unique_id=1112491877]
+scroll_scale = Vector2(0, 0.06)
+
+[node name="Sprite" type="Sprite2D" parent="SkyFar" unique_id=1679176945]
+texture = ExtResource("2_sky")
+centered = false
+
+[node name="Nebula" type="Parallax2D" parent="." unique_id=170401452]
+z_index = 1
+scroll_scale = Vector2(0, 0.16)
+
+[node name="Sprite" type="Sprite2D" parent="Nebula" unique_id=1263236049]
+texture = ExtResource("3_nebula")
+centered = false
+
+[node name="Moon" type="Parallax2D" parent="." unique_id=1290287730]
+z_index = 2
+scroll_scale = Vector2(0, 0.28)
+
+[node name="Sprite" type="Sprite2D" parent="Moon" unique_id=1537167044]
+texture = ExtResource("4_moon")
+centered = false
+
+[node name="Clouds" type="Parallax2D" parent="." unique_id=20373013]
+z_index = 3
+scroll_scale = Vector2(0, 0.4)
+
+[node name="Sprite2D" type="Sprite2D" parent="Clouds" unique_id=1451467101]
+texture = ExtResource("5_x83gl")
+centered = false
+
+[node name="CastleMist" type="Parallax2D" parent="." unique_id=553671694]
+z_index = 4
+scroll_scale = Vector2(0, 0.54)
+
+[node name="Sprite2D" type="Sprite2D" parent="CastleMist" unique_id=1081563970]
+texture = ExtResource("6_ttthl")
+centered = false
+
+[node name="CastleDark" type="Parallax2D" parent="." unique_id=1176154812]
+z_index = 5
+scroll_scale = Vector2(0, 0.7)
+
+[node name="Sprite2D" type="Sprite2D" parent="CastleDark" unique_id=1940624175]
+texture = ExtResource("7_8nvrq")
+centered = false
+
+[node name="Trees" type="Parallax2D" parent="." unique_id=740464915]
+z_index = 6
+scroll_scale = Vector2(0, 0.86)
+
+[node name="Sprite2D" type="Sprite2D" parent="Trees" unique_id=1003120775]
+texture = ExtResource("8_dsrkw")
+centered = false
+
+[node name="WorldToggle" type="CanvasLayer" parent="." unique_id=1065791650]
+layer = 6
+
+[node name="Bar" type="CenterContainer" parent="WorldToggle" unique_id=434985657]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -108.0
+offset_bottom = -28.0
+grow_horizontal = 2
+grow_vertical = 0
+
+[node name="Button" type="Button" parent="WorldToggle/Bar" unique_id=982922378]
+custom_minimum_size = Vector2(240, 64)
+layout_mode = 2
+focus_mode = 0
+theme_override_font_sizes/font_size = 22
+text = "Geisterwelt"

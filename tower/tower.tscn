@@ -6,9 +6,12 @@
 [ext_resource type="PackedScene" uid="uid://dksng5mk512e8" path="res://tower/items/pumpkin.tscn" id="3_4ulc0"]
 [ext_resource type="Script" path="res://tower/tower.gd" id="4_tower"]
 [ext_resource type="PackedScene" path="res://ui/hud/run_hud.tscn" id="5_hud"]
+[ext_resource type="PackedScene" path="res://tower/background/tower_background.tscn" id="6_bg"]
 
 [node name="Tower" type="Node2D" unique_id=1276826770]
 script = ExtResource("4_tower")
+
+[node name="TowerBackground" parent="." instance=ExtResource("6_bg")]
 
 [node name="UpwardCamera" parent="." unique_id=750025697 node_paths=PackedStringArray("target") instance=ExtResource("1_xnkcx")]
 target = NodePath("../Player")
