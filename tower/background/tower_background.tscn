@@ -67,23 +67,3 @@ scroll_scale = Vector2(0, 0.86)
 [node name="Sprite2D" type="Sprite2D" parent="Trees" unique_id=1003120775]
 texture = ExtResource("8_dsrkw")
 centered = false
-
-[node name="WorldToggle" type="CanvasLayer" parent="." unique_id=1065791650]
-layer = 6
-
-[node name="Bar" type="CenterContainer" parent="WorldToggle" unique_id=434985657]
-anchors_preset = 12
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = -108.0
-offset_bottom = -28.0
-grow_horizontal = 2
-grow_vertical = 0
-
-[node name="Button" type="Button" parent="WorldToggle/Bar" unique_id=982922378]
-custom_minimum_size = Vector2(240, 64)
-layout_mode = 2
-focus_mode = 0
-theme_override_font_sizes/font_size = 22
-text = "Geisterwelt"

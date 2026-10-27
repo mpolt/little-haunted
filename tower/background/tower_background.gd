@@ -2,37 +2,21 @@ extends Node2D
 class_name TowerBackground
 
 ## Parallax hinter dem Turm. Jede Parallax2D-Ebene mit einem Sprite wird auf
-## den Bildschirm gelegt. Der Button tauscht sie gegen die gleichnamige Grafik
-## unter assets/ghost_world.
-
-enum World { NORMAL, GHOST }
-
-signal world_changed(world: World)
-
-const ScreenStyle := preload("res://ui/screen_style.gd")
-
-@export var world: World = World.NORMAL:
-	set(value):
-		world = value
-		if is_node_ready():
-			_apply()
-			world_changed.emit(world)
+## den Bildschirm gelegt und folgt GameData.world mit den Grafiken unter
+## assets/ghost_world.
 
 var _layers: Array[Dictionary] = []
-
-@onready var _button: Button = $WorldToggle/Bar/Button
 
 
 func _ready() -> void:
 	_collect_layers()
-	ScreenStyle.paint_secondary(_button)
-	_button.pressed.connect(_toggle)
+	GameData.world_changed.connect(_on_world_changed)
 	get_viewport().size_changed.connect(_apply)
 	_apply()
 
 
-func _toggle() -> void:
-	world = World.GHOST if world == World.NORMAL else World.NORMAL
+func _on_world_changed(_world: GameData.World) -> void:
+	_apply()
 
 
 func _collect_layers() -> void:
@@ -55,10 +39,10 @@ func _collect_layers() -> void:
 
 
 func _apply() -> void:
+	var ghost_world := GameData.world == GameData.World.GHOST
 	for entry in _layers:
-		var texture: Texture2D = entry[&"ghost"] if world == World.GHOST else entry[&"normal"]
+		var texture: Texture2D = entry[&"ghost"] if ghost_world else entry[&"normal"]
 		_fit(entry[&"layer"], entry[&"sprite"], texture)
-	_button.text = "Normal" if world == World.GHOST else "Geisterwelt"
 
 
 ## Oben links im Wiederholungsfeld, horizontal mittig, wenn die Grafik breiter
