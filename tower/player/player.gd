@@ -34,7 +34,7 @@ func _physics_process(delta: float) -> void:
 	_boost_this_step = 0.0
 	velocity += get_gravity() * delta
 
-	var direction := Input.get_axis("move_left", "move_right")
+	var direction := Settings.steer()
 	if direction:
 		velocity.x = direction * SPEED
 		_facing_left = direction < 0.0
@@ -61,7 +61,7 @@ func jump(boost: float = BOOST_DEFAULT) -> bool:
 
 
 func _update_animation() -> void:
-	var direction := Input.get_axis("move_left", "move_right")
+	var direction := Settings.steer()
 	var next_animation: StringName = &"default"
 
 	if is_on_floor():

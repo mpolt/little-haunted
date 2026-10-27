@@ -7,11 +7,15 @@ const SOUL := Color(0.55, 0.9, 1.0)
 @onready var _points: Label = %PointsLabel
 @onready var _souls: Label = %SoulsLabel
 @onready var _world_button: Button = %WorldButton
+@onready var _options_button: Button = %OptionsButton
+@onready var _options_menu: OptionsMenu = $OptionsMenu
 
 
 func _ready() -> void:
 	ScreenStyle.paint_secondary(_world_button)
+	ScreenStyle.paint_secondary(_options_button)
 	_world_button.pressed.connect(GameData.toggle_world)
+	_options_button.pressed.connect(_open_options)
 	GameData.run_changed.connect(_refresh)
 	GameData.world_changed.connect(_refresh_world)
 	GameData.reset_run()
@@ -28,3 +32,7 @@ func _refresh() -> void:
 
 func _refresh_world(_world: GameData.World) -> void:
 	_world_button.text = "Normal" if _world == GameData.World.GHOST else "Geisterwelt"
+
+
+func _open_options() -> void:
+	_options_menu.open(true)
