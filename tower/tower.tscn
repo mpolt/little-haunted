@@ -3,7 +3,6 @@
 [ext_resource type="PackedScene" uid="uid://brstjvtfd1cc3" path="res://tower/generation/platforms.tscn" id="1_platforms"]
 [ext_resource type="PackedScene" uid="uid://bjmwgr83so5ie" path="res://components/camera/upward_camera.tscn" id="1_xnkcx"]
 [ext_resource type="PackedScene" uid="uid://cpc5agx2ar2uv" path="res://tower/player/player.tscn" id="2_3fjlj"]
-[ext_resource type="PackedScene" uid="uid://dksng5mk512e8" path="res://tower/items/pumpkin.tscn" id="3_4ulc0"]
 [ext_resource type="Script" path="res://tower/tower.gd" id="4_tower"]
 [ext_resource type="PackedScene" path="res://ui/hud/run_hud.tscn" id="5_hud"]
 [ext_resource type="PackedScene" path="res://tower/background/tower_background.tscn" id="6_bg"]
@@ -20,8 +19,5 @@ target = NodePath("../Player")
 
 [node name="Player" parent="." unique_id=1335335397 instance=ExtResource("2_3fjlj")]
 position = Vector2(148, 881)
-
-[node name="Pumpkin" parent="." unique_id=293966580 instance=ExtResource("3_4ulc0")]
-position = Vector2(482, 899)
 
 [node name="RunHud" parent="." instance=ExtResource("5_hud")]

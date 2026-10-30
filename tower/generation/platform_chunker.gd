@@ -2,18 +2,51 @@ extends Node2D
 class_name PlatformChunker
 
 const PLATFORM_SCENE := preload("res://tower/platforms/platform.tscn")
+const BOOST_PLATFORM_SCENE := preload("res://tower/platforms/pumpkin_platform.tscn")
+
+const ITEM_CANDY := preload("res://tower/items/candy.tscn")
+const ITEM_PUMPKIN := preload("res://tower/items/pumpkin.tscn")
+const ITEM_CANDLE := preload("res://tower/items/candle.tscn")
+const ITEM_BELL := preload("res://tower/items/bell.tscn")
+const ITEM_SOUL_FLAME := preload("res://tower/items/soul_flame.tscn")
+const ITEM_SPIDER_NET := preload("res://tower/items/spider_net.tscn")
 
 const PLATFORMS_PER_CHUNK: int = 6
-const Y_SPACING_MIN: float = 110.0
-const Y_SPACING_MAX: float = 180.0
 const EDGE_MARGIN: float = 16.0
 ## Abstand unter dem Spieler, auf dem die erste Plattform steht.
 const START_DROP: float = 190.0
+## Wie weit Items über der Plattform schweben.
+const ITEM_OFFSET_Y: float = 56.0
+const ITEM_OFFSET_X: float = 28.0
 
 ## How far above the camera top platforms must reach before we stop spawning ahead.
 const AHEAD_VIEWPORTS: float = 1.0
 ## How far below the camera bottom a chunk's top may sit before it is freed.
 const BEHIND_VIEWPORTS: float = 0.5
+
+@export_group("Difficulty")
+@export var platforms_per_tier: int = 12
+@export var tiers_to_max: int = 8
+@export var y_spacing_min_start: float = 110.0
+@export var y_spacing_max_start: float = 180.0
+@export var y_spacing_min_end: float = 220.0
+@export var y_spacing_max_end: float = 420.0
+
+@export_group("Boost")
+@export var normal_jump_reach: float = 300.0
+@export var boost_jump_reach: float = 520.0
+@export_range(0.0, 1.0) var boost_chance_when_needed: float = 0.7
+@export var boost_min_gap: int = 4
+
+@export_group("Items")
+@export_range(0.0, 1.0) var item_chance: float = 0.3
+@export var spider_from_tier: int = 2
+@export var weight_candy: int = 5
+@export var weight_pumpkin: int = 10
+@export var weight_candle: int = 3
+@export var weight_bell: int = 2
+@export var weight_soul_flame: int = 1
+@export var weight_spider_net: int = 1
 
 var _view_size: Vector2
 var _cursor_y: float
@@ -23,6 +56,8 @@ var _started := false
 var _player: Player
 ## Welt-X der ersten Plattform. Negativ: keine Vorgabe, dann Bildschirmmitte.
 var _anchor_x := -1.0
+var _platforms_spawned: int = 0
+var _platforms_since_boost: int = 999
 
 
 func _ready() -> void:
@@ -53,6 +88,8 @@ func start(view_size: Vector2, start_y: float) -> Node2D:
 	_started = true
 	_view_size = view_size
 	_cursor_y = start_y
+	_platforms_spawned = 0
+	_platforms_since_boost = 999
 
 	var first_platform: Node2D = null
 	var camera_center_y := view_size.y * 0.5
@@ -102,7 +139,21 @@ func _spawn_chunk() -> void:
 	var top_y := _cursor_y
 	for i in PLATFORMS_PER_CHUNK:
 		var is_start_platform := _chunks.is_empty() and i == 0
-		var platform := PLATFORM_SCENE.instantiate() as Platform
+		var spacing := _roll_spacing()
+		var use_boost := false
+
+		if spacing > normal_jump_reach:
+			if (
+				not is_start_platform
+				and _platforms_since_boost >= boost_min_gap
+				and randf() < boost_chance_when_needed
+			):
+				use_boost = true
+			else:
+				spacing = normal_jump_reach
+
+		var scene := BOOST_PLATFORM_SCENE if use_boost else PLATFORM_SCENE
+		var platform := scene.instantiate() as Platform
 		chunk.add_child(platform)
 
 		var half := _half_width(platform)
@@ -116,12 +167,79 @@ func _spawn_chunk() -> void:
 
 		platform.global_position = Vector2(x, _cursor_y)
 		top_y = _cursor_y
-		_cursor_y -= randf_range(Y_SPACING_MIN, Y_SPACING_MAX)
+
+		if not is_start_platform and randf() < item_chance:
+			_spawn_item(chunk, platform.global_position)
+
+		_platforms_spawned += 1
+		if use_boost:
+			_platforms_since_boost = 0
+		else:
+			_platforms_since_boost += 1
+
+		_cursor_y -= spacing
 
 	_chunks.append({
 		"node": chunk,
 		"top_y": top_y,
 	})
+
+
+func _current_tier() -> int:
+	if platforms_per_tier <= 0 or tiers_to_max <= 0:
+		return 0
+	return mini(_platforms_spawned / platforms_per_tier, tiers_to_max)
+
+
+func _tier_progress() -> float:
+	if tiers_to_max <= 0:
+		return 1.0
+	return float(_current_tier()) / float(tiers_to_max)
+
+
+func _roll_spacing() -> float:
+	var t := _tier_progress()
+	var min_y := lerpf(y_spacing_min_start, y_spacing_min_end, t)
+	var max_y := lerpf(y_spacing_max_start, y_spacing_max_end, t)
+	if max_y < min_y:
+		max_y = min_y
+	return minf(randf_range(min_y, max_y), boost_jump_reach)
+
+
+func _spawn_item(chunk: Node2D, platform_pos: Vector2) -> void:
+	var scene := _pick_item_scene()
+	if scene == null:
+		return
+	var item := scene.instantiate() as Node2D
+	chunk.add_child(item)
+	var side := -1.0 if randf() < 0.5 else 1.0
+	item.global_position = platform_pos + Vector2(side * ITEM_OFFSET_X, -ITEM_OFFSET_Y)
+
+
+func _pick_item_scene() -> PackedScene:
+	var entries: Array[Dictionary] = [
+		{"scene": ITEM_CANDY, "weight": weight_candy},
+		{"scene": ITEM_PUMPKIN, "weight": weight_pumpkin},
+		{"scene": ITEM_CANDLE, "weight": weight_candle},
+		{"scene": ITEM_BELL, "weight": weight_bell},
+		{"scene": ITEM_SOUL_FLAME, "weight": weight_soul_flame},
+	]
+	if _current_tier() >= spider_from_tier:
+		entries.append({"scene": ITEM_SPIDER_NET, "weight": weight_spider_net})
+
+	var total := 0
+	for entry in entries:
+		total += maxi(int(entry["weight"]), 0)
+	if total <= 0:
+		return null
+
+	var pick := randi() % total
+	var running := 0
+	for entry in entries:
+		running += maxi(int(entry["weight"]), 0)
+		if pick < running:
+			return entry["scene"] as PackedScene
+	return entries.back()["scene"] as PackedScene
 
 
 func _half_width(platform: Platform) -> float:
