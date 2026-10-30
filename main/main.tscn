@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://dhesvqa1kqy3" path="res://main/assets/main_bg.png" id="2_pjrb6"]
 [ext_resource type="Texture2D" uid="uid://cydsjyi67jejw" path="res://main/assets/tower_button.png" id="3_xwkvk"]
 [ext_resource type="Texture2D" uid="uid://x3klp4026gln" path="res://tower/player/assets/idle.png" id="4_c651c"]
+[ext_resource type="Script" path="res://main/ghost_mist.gd" id="5_mist"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_53q0u"]
 content_margin_left = 32.0
@@ -307,6 +308,9 @@ stretch_mode = 5
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer" unique_id=1407098517]
 libraries/ = SubResource("AnimationLibrary_4dugh")
 speed_scale = 2.225
+
+[node name="GhostMist" type="Node2D" parent="CanvasLayer"]
+script = ExtResource("5_mist")
 
 [node name="ghost2" type="Sprite2D" parent="CanvasLayer" unique_id=2100009507]
 modulate = Color(1, 1, 1, 0.8627451)
