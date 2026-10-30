@@ -4,6 +4,9 @@ class_name Collectible
 ## Einsammelbares Item. Die Grafik liegt unter Visual, die Collision bleibt außen,
 ## damit Flackern die Trefferfläche nicht mitbewegt.
 
+## project.godot: 2d_physics/layer_3 = items
+const PHYSICS_LAYER := 4
+
 enum VanishStyle { PARTICLES, ASCEND }
 
 @export var vanish_style: VanishStyle = VanishStyle.PARTICLES
@@ -29,6 +32,9 @@ var _time: float = 0.0
 
 
 func _ready() -> void:
+	collision_layer = PHYSICS_LAYER
+	collision_mask = Player.PHYSICS_LAYER
+	z_index = 1
 	_particles = get_node_or_null("GPUParticles2D") as GPUParticles2D
 	_time = randf() * TAU
 	_ensure_halo()

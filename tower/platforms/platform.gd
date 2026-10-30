@@ -1,6 +1,9 @@
 extends Area2D
 class_name Platform
 
+## project.godot: 2d_physics/layer_2 = platforms
+const PHYSICS_LAYER := 2
+
 @export var boost: float = Player.BOOST_DEFAULT
 
 @onready var _boost_animation: AnimationPlayer = get_node_or_null("AnimationPlayer")
@@ -11,6 +14,8 @@ var _ghost_texture: Texture2D
 
 
 func _ready() -> void:
+	collision_layer = PHYSICS_LAYER
+	collision_mask = Player.PHYSICS_LAYER
 	_cache_textures()
 	_apply_world(GameData.world)
 	GameData.world_changed.connect(_apply_world)

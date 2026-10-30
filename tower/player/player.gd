@@ -3,6 +3,8 @@ class_name Player
 
 const SPEED = 300.0
 const BOOST_DEFAULT = -800.0
+## project.godot: 2d_physics/layer_1 = player
+const PHYSICS_LAYER := 1
 
 ## Gleiche sichtbare Höhe und gleiche Bildmitte für jede Pose.
 const _FRAME_SCALE := {
@@ -33,6 +35,10 @@ var _glow_time := 0.0
 
 
 func _ready() -> void:
+	collision_layer = PHYSICS_LAYER
+	## Keine physische Welt-Kollision; Sprünge laufen über Area2D.
+	collision_mask = 0
+	z_index = 2
 	_apply_frame(&"default")
 	_ensure_halo()
 
