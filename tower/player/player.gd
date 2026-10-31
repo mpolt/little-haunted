@@ -3,6 +3,8 @@ class_name Player
 
 const SPEED = 300.0
 const BOOST_DEFAULT = -800.0
+## Schwächster Absprung. Mehrere Netze können die Sprungkraft nicht darunter drücken.
+const MIN_BOOST := -160.0
 ## project.godot: 2d_physics/layer_1 = player
 const PHYSICS_LAYER := 1
 
@@ -22,9 +24,15 @@ const _FRAME_OFFSET := {
 const _HALO_COLOR := Color(0.55, 0.88, 1.0, 0.38)
 const _HALO_SCALE := Vector2(1.7, 2.05)
 const _BREATH_SECONDS := 2.1
+const _BOOST_PLUS := preload("res://tower/items/assets/boost_plus.png")
+const _BOOST_MIN := preload("res://tower/items/assets/boost_min.png")
+## 1254px-Icon, sichtbar etwa so hoch wie der Körper.
+const _BOOST_ICON_SCALE := 0.06
 
 ## Stärkster Boost, der in diesem Physikschritt schon vergeben wurde.
 var _boost_this_step := 0.0
+## Sprungkraft dieses Laufs. Candies erhöhen sie, Spinnennetze senken sie, der Tod setzt sie auf 0.
+var jump_bonus := 0.0
 var _facing_left := false
 var _halo: Sprite2D
 var _glow_time := 0.0
@@ -62,7 +70,23 @@ func _process(delta: float) -> void:
 	_update_glow(delta)
 
 
+func add_jump_bonus(amount: float) -> void:
+	if is_zero_approx(amount):
+		return
+	jump_bonus += amount
+	_popup_boost(amount > 0.0)
+
+
+func reset_after_death() -> void:
+	jump_bonus = 0.0
+	for child in get_children():
+		if str(child.name).begins_with("BoostPopup"):
+			child.queue_free()
+
+
 func jump(boost: float = BOOST_DEFAULT) -> bool:
+	# Negativer Boost: größerer Betrag bedeutet höher.
+	boost = minf(boost - jump_bonus, MIN_BOOST)
 	var already_boosted := _boost_this_step < 0.0
 	if velocity.y <= 0.0 and not already_boosted:
 		return false
@@ -141,6 +165,23 @@ static func _radial_texture(size: int) -> GradientTexture2D:
 	texture.fill_from = Vector2(0.5, 0.5)
 	texture.fill_to = Vector2(1.0, 0.5)
 	return texture
+
+
+func _popup_boost(stronger: bool) -> void:
+	var icon := Sprite2D.new()
+	icon.name = "BoostPopup"
+	icon.texture = _BOOST_PLUS if stronger else _BOOST_MIN
+	icon.scale = Vector2.ONE * 0.01
+	icon.position = Vector2(randf_range(-14.0, 14.0), -118.0)
+	icon.z_index = 1
+	add_child(icon)
+	var tween := icon.create_tween().set_parallel(true)
+	tween.tween_property(icon, "scale", Vector2.ONE * _BOOST_ICON_SCALE, 0.18) \
+		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.tween_property(icon, "position:y", icon.position.y - 70.0, 0.72) \
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(icon, "modulate:a", 0.0, 0.28).set_delay(0.44)
+	tween.chain().tween_callback(icon.queue_free)
 
 
 func _play_squash(boost: float) -> void:

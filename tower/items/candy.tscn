@@ -36,6 +36,7 @@ color_initial_ramp = SubResource("GradientTexture1D_birth")
 collision_layer = 0
 script = ExtResource("2_col")
 points = 1
+jump_bonus = 40.0
 burst_particles = NodePath("GPUParticles2D")
 glow = Color(1.25, 0.72, 0.85, 1)
 halo_offset = Vector2(0, -17)

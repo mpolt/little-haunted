@@ -18,6 +18,9 @@ func _ready() -> void:
 
 
 func _on_player_fell() -> void:
+	var player := _camera.target as Player
+	if player:
+		player.reset_after_death()
 	get_tree().paused = true
 	_game_over.open()
 
