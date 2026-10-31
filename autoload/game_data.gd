@@ -3,6 +3,7 @@ extends Node
 enum World { NORMAL, GHOST }
 
 signal run_changed
+signal run_reset
 signal world_changed(world: World)
 
 var points: int = 0
@@ -24,6 +25,7 @@ func reset_run() -> void:
 	points = 0
 	world = World.NORMAL
 	run_changed.emit()
+	run_reset.emit()
 
 
 func toggle_world() -> void:

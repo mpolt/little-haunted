@@ -120,6 +120,8 @@ func _apply_facing() -> void:
 func _on_body_entered(body: Node2D) -> void:
 	if _dead or not (body is Player):
 		return
+	if GameData.world == GameData.World.GHOST:
+		return
 	var player := body as Player
 	if player.take_hit():
 		_pop()

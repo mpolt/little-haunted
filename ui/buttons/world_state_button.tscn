@@ -1,0 +1,55 @@
+[gd_scene format=3 uid="uid://bxej6idg8e1v8"]
+
+[ext_resource type="Script" uid="uid://dj4jesmm45boi" path="res://ui/buttons/world_state_button.gd" id="1_script"]
+[ext_resource type="Texture2D" uid="uid://b0jqyaf62xono" path="res://ui/buttons/assets/world_state_button.png" id="2_sheet"]
+[ext_resource type="Script" uid="uid://chhg1gmxnwviu" path="res://ui/buttons/clock_overlay.gd" id="3_clock"]
+
+[sub_resource type="AtlasTexture" id="Atlas_normal"]
+atlas = ExtResource("2_sheet")
+region = Rect2(0, 607, 647, 607)
+
+[node name="WorldStateButton" type="Control" unique_id=1129008482]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_script")
+
+[node name="Button" type="TextureButton" parent="." unique_id=346286576]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 0
+texture_normal = SubResource("Atlas_normal")
+ignore_texture_size = true
+stretch_mode = 0
+
+[node name="ClockOverlay" type="Control" parent="." unique_id=332288663]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("3_clock")
+
+[node name="TimerLabel" type="Label" parent="." unique_id=1488165088]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.96, 0.93, 0.88, 1)
+theme_override_colors/font_outline_color = Color(0.07, 0.045, 0.11, 1)
+theme_override_constants/outline_size = 8
+theme_override_font_sizes/font_size = 36
+horizontal_alignment = 1
+vertical_alignment = 1

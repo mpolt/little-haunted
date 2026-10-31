@@ -3,14 +3,14 @@
 [ext_resource type="PackedScene" uid="uid://brstjvtfd1cc3" path="res://tower/generation/platforms.tscn" id="1_platforms"]
 [ext_resource type="PackedScene" uid="uid://bjmwgr83so5ie" path="res://components/camera/upward_camera.tscn" id="1_xnkcx"]
 [ext_resource type="PackedScene" uid="uid://cpc5agx2ar2uv" path="res://tower/player/player.tscn" id="2_3fjlj"]
-[ext_resource type="Script" path="res://tower/tower.gd" id="4_tower"]
+[ext_resource type="Script" uid="uid://cjh315jbvkcen" path="res://tower/tower.gd" id="4_tower"]
 [ext_resource type="PackedScene" path="res://ui/hud/run_hud.tscn" id="5_hud"]
-[ext_resource type="PackedScene" path="res://tower/background/tower_background.tscn" id="6_bg"]
+[ext_resource type="PackedScene" uid="uid://n2k0rkl561ts" path="res://tower/background/tower_background.tscn" id="6_bg"]
 
 [node name="Tower" type="Node2D" unique_id=1276826770]
 script = ExtResource("4_tower")
 
-[node name="TowerBackground" parent="." instance=ExtResource("6_bg")]
+[node name="TowerBackground" parent="." unique_id=408661312 instance=ExtResource("6_bg")]
 
 [node name="UpwardCamera" parent="." unique_id=750025697 node_paths=PackedStringArray("target") instance=ExtResource("1_xnkcx")]
 target = NodePath("../Player")
@@ -20,4 +20,4 @@ target = NodePath("../Player")
 [node name="Player" parent="." unique_id=1335335397 instance=ExtResource("2_3fjlj")]
 position = Vector2(148, 881)
 
-[node name="RunHud" parent="." instance=ExtResource("5_hud")]
+[node name="RunHud" parent="." unique_id=1496692333 instance=ExtResource("5_hud")]

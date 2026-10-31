@@ -27,8 +27,14 @@ const _FRAME_OFFSET := {
 const _HALO_COLOR := Color(0.55, 0.88, 1.0, 0.38)
 const _HALO_SCALE := Vector2(1.7, 2.05)
 const _BREATH_SECONDS := 2.1
-const _SHIELD_COLOR := Color(1.0, 0.82, 0.28, 0.55)
+const _SHIELD_MAX := 3
 const _SHIELD_SCALE := Vector2(2.15, 2.55)
+## Stufen 1–3: Farbe und Basisgröße des gelben Scheins.
+const _SHIELD_TIERS := [
+	{"color": Color(1.0, 0.82, 0.28, 0.42), "scale": 1.0},
+	{"color": Color(1.0, 0.78, 0.18, 0.68), "scale": 1.18},
+	{"color": Color(1.0, 0.92, 0.35, 0.92), "scale": 1.38},
+]
 const _DEATH_COLOR := Color(1.0, 0.32, 0.38, 0.0)
 const _BOOST_PLUS := preload("res://tower/items/assets/boost_plus.png")
 const _BOOST_MIN := preload("res://tower/items/assets/boost_min.png")
@@ -94,16 +100,18 @@ func add_jump_bonus(amount: float) -> void:
 
 
 func grant_shield() -> void:
-	if _dead:
+	if _dead or shield_charges >= _SHIELD_MAX:
 		return
 	shield_charges += 1
 	shield_changed.emit(shield_charges)
 	_refresh_shield_ring()
 
 
-## Gibt true zurück, wenn eine Schild-Ladung den Treffer abgefangen hat.
+## Gibt true zurück, wenn der Treffer überlebt wurde (Schild oder Geisterwelt).
 func take_hit() -> bool:
 	if _dead:
+		return true
+	if GameData.world == GameData.World.GHOST:
 		return true
 	if shield_charges > 0:
 		shield_charges -= 1
@@ -221,9 +229,11 @@ func _update_glow(delta: float) -> void:
 		base = base.lerp(Color(1.0, 0.78, 0.35), clampf(_hurt_flash / 0.22, 0.0, 1.0))
 	_sprite.modulate = base
 	if _shield_ring and shield_charges > 0:
-		var charge_boost := 1.0 + 0.06 * float(mini(shield_charges, 5) - 1)
-		_shield_ring.modulate.a = _SHIELD_COLOR.a * lerpf(0.55, 1.0, presence)
-		_shield_ring.scale = _SHIELD_SCALE * charge_boost * lerpf(0.96, 1.06, breath)
+		var tier: Dictionary = _SHIELD_TIERS[mini(shield_charges, _SHIELD_MAX) - 1]
+		var color: Color = tier["color"]
+		var scale_mult: float = tier["scale"]
+		_shield_ring.modulate = Color(color.r, color.g, color.b, color.a * lerpf(0.72, 1.0, presence))
+		_shield_ring.scale = _SHIELD_SCALE * scale_mult * lerpf(0.96, 1.08, breath)
 
 
 func _ensure_halo() -> void:
@@ -245,22 +255,23 @@ func _refresh_shield_ring() -> void:
 	if shield_charges <= 0:
 		_clear_shield_ring()
 		return
-	if _shield_ring and is_instance_valid(_shield_ring):
-		_shield_ring.visible = true
-		_shield_ring.modulate = _SHIELD_COLOR
-		return
-	_shield_ring = Sprite2D.new()
-	_shield_ring.name = "ShieldRing"
-	_shield_ring.texture = _radial_texture(128)
-	_shield_ring.position = _sprite.position
-	_shield_ring.scale = _SHIELD_SCALE
-	_shield_ring.modulate = _SHIELD_COLOR
-	var shield_material := CanvasItemMaterial.new()
-	shield_material.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
-	_shield_ring.material = shield_material
-	_shield_ring.z_index = -1
-	_visual.add_child(_shield_ring)
-	_visual.move_child(_shield_ring, 0)
+	var tier: Dictionary = _SHIELD_TIERS[mini(shield_charges, _SHIELD_MAX) - 1]
+	var color: Color = tier["color"]
+	var scale_mult: float = tier["scale"]
+	if _shield_ring == null or not is_instance_valid(_shield_ring):
+		_shield_ring = Sprite2D.new()
+		_shield_ring.name = "ShieldRing"
+		_shield_ring.texture = _radial_texture(128)
+		_shield_ring.position = _sprite.position
+		var shield_material := CanvasItemMaterial.new()
+		shield_material.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+		_shield_ring.material = shield_material
+		_shield_ring.z_index = -1
+		_visual.add_child(_shield_ring)
+		_visual.move_child(_shield_ring, 0)
+	_shield_ring.visible = true
+	_shield_ring.modulate = color
+	_shield_ring.scale = _SHIELD_SCALE * scale_mult
 
 
 func _clear_shield_ring() -> void:
