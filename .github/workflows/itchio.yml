@@ -1,0 +1,39 @@
+
+name: Upload Little Haunted to itch.io
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  itchio-upload:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Projekt herunterladen
+        uses: actions/checkout@v4
+
+      - name: Godot installieren
+        uses: chickensoft-games/setup-godot@v2
+        with:
+          version: 4.7.2
+          use-dotnet: false
+          include-templates: true
+
+      - name: Projekt importieren
+        run: godot --headless --path . --import
+
+      - name: Web-Version exportieren
+        run: |
+          mkdir -p build/web
+          godot --headless --path . --export-release "Web" build/web/index.html
+
+      - name: Butler installieren
+        uses: remarkablegames/setup-butler@v3
+
+      - name: Auf itch.io hochladen
+        env:
+          BUTLER_API_KEY: ${{ secrets.BUTLER_API_KEY }}
+        run: butler push build/web n3k0m47a/little-haunted:html5
