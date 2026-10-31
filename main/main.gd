@@ -12,6 +12,7 @@ const OPTIONS_SCENE := preload("res://ui/options/options_menu.tscn")
 @onready var _options: Button = %OptionsButton
 @onready var _test_platforms: Button = %TestPlatformsButton
 @onready var _test_items: Button = %TestItemsButton
+@onready var _test_enemies: Button = %TestEnemiesButton
 @onready var _flight: AnimationPlayer = $CanvasLayer/AnimationPlayer
 
 var _options_menu: OptionsMenu
@@ -26,6 +27,7 @@ func _ready() -> void:
 	ScreenStyle.paint_secondary(_options)
 	ScreenStyle.paint_secondary(_test_platforms)
 	ScreenStyle.paint_secondary(_test_items)
+	ScreenStyle.paint_secondary(_test_enemies)
 	if Engine.is_editor_hint():
 		return
 
@@ -38,6 +40,7 @@ func _ready() -> void:
 	_options.pressed.connect(_open_options)
 	_test_platforms.pressed.connect(func() -> void: _open_scene("res://tests/test_platforms.tscn"))
 	_test_items.pressed.connect(func() -> void: _open_scene("res://tests/test_items.tscn"))
+	_test_enemies.pressed.connect(func() -> void: _open_scene("res://tests/test_enemies.tscn"))
 	_play.grab_focus()
 
 

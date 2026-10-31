@@ -1,0 +1,57 @@
+[gd_scene format=3 uid="uid://cdtofe522xkc7"]
+
+[ext_resource type="Script" uid="uid://fo4e4ts25ivp" path="res://tests/test_enemies.gd" id="1_script"]
+[ext_resource type="PackedScene" uid="uid://h5msfvahi20x" path="res://tower/platforms/platform.tscn" id="2_platform"]
+[ext_resource type="PackedScene" uid="uid://bmenubtnscn01" path="res://ui/buttons/menu_button.tscn" id="3_menu"]
+[ext_resource type="PackedScene" uid="uid://cpc5agx2ar2uv" path="res://tower/player/player.tscn" id="4_player"]
+[ext_resource type="PackedScene" uid="uid://c21ydy424unea" path="res://tower/enemies/zombie.tscn" id="5_zombie"]
+[ext_resource type="PackedScene" uid="uid://c21ydaqbueaea" path="res://tower/enemies/bat.tscn" id="6_bat"]
+[ext_resource type="PackedScene" uid="uid://c21ydr55ixaea" path="res://tower/enemies/spook.tscn" id="7_spook"]
+[ext_resource type="PackedScene" uid="uid://dcgkyodr54gke" path="res://tower/items/candle.tscn" id="8_candle"]
+[ext_resource type="PackedScene" path="res://ui/hud/run_hud.tscn" id="9_hud"]
+
+[node name="TestEnemies" type="Node2D" unique_id=358134450]
+script = ExtResource("1_script")
+
+[node name="Platforms" type="Node2D" parent="." unique_id=1435327908]
+
+[node name="ZombiePlatform" parent="Platforms" unique_id=853529490 instance=ExtResource("2_platform")]
+position = Vector2(288, 1100)
+
+[node name="CandlePlatform" parent="Platforms" unique_id=907226295 instance=ExtResource("2_platform")]
+position = Vector2(120, 900)
+
+[node name="MidPlatform" parent="Platforms" unique_id=166991229 instance=ExtResource("2_platform")]
+position = Vector2(450, 720)
+
+[node name="TopPlatform" parent="Platforms" unique_id=1210286806 instance=ExtResource("2_platform")]
+position = Vector2(200, 520)
+
+[node name="Enemies" type="Node2D" parent="." unique_id=399412001]
+
+[node name="Zombie" parent="Enemies" unique_id=1555601880 instance=ExtResource("5_zombie")]
+position = Vector2(288, 1092)
+
+[node name="Bat" parent="Enemies" unique_id=1120800803 instance=ExtResource("6_bat")]
+position = Vector2(100, 820)
+
+[node name="Spook" parent="Enemies" unique_id=1592547697 instance=ExtResource("7_spook")]
+position = Vector2(480, 620)
+
+[node name="Items" type="Node2D" parent="." unique_id=441296227]
+
+[node name="Candle" parent="Items" unique_id=487487909 instance=ExtResource("8_candle")]
+position = Vector2(120, 844)
+
+[node name="Candle2" parent="Items" instance=ExtResource("8_candle")]
+position = Vector2(450, 664)
+
+[node name="Player" parent="." unique_id=1737632316 instance=ExtResource("4_player")]
+position = Vector2(80, 1020)
+
+[node name="MenuButton" parent="." unique_id=656771835 instance=ExtResource("3_menu")]
+
+[node name="RunHud" parent="." unique_id=532549365 instance=ExtResource("9_hud")]
+
+[node name="Platform" parent="." unique_id=308494935 instance=ExtResource("2_platform")]
+position = Vector2(100, 1205)

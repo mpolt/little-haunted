@@ -1,0 +1,31 @@
+[gd_scene format=3 uid="uid://c21ydr55ixaea"]
+
+[ext_resource type="Script" path="res://tower/enemies/enemy.gd" id="1_enemy"]
+[ext_resource type="Texture2D" uid="uid://bs7a0gg3cc0jf" path="res://tower/enemies/assets/spook.png" id="2_tex"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_spook"]
+radius = 28.0
+
+[node name="Spook" type="Area2D"]
+collision_layer = 0
+script = ExtResource("1_enemy")
+move_mode = 1
+speed = 70.0
+bob_amplitude = 18.0
+bob_speed = 2.4
+pulse_strength = 0.06
+sway_rotation = 0.12
+sprite_scale = 0.085
+faces_left = false
+
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite2D" parent="Visual"]
+position = Vector2(0, -10)
+scale = Vector2(0.085, 0.085)
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -8)
+shape = SubResource("CircleShape2D_spook")

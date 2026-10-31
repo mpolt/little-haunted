@@ -1,6 +1,9 @@
 extends CharacterBody2D
 class_name Player
 
+signal died
+signal shield_changed(charges: int)
+
 const SPEED = 300.0
 const BOOST_DEFAULT = -800.0
 ## Schwächster Absprung. Mehrere Netze können die Sprungkraft nicht darunter drücken.
@@ -24,6 +27,9 @@ const _FRAME_OFFSET := {
 const _HALO_COLOR := Color(0.55, 0.88, 1.0, 0.38)
 const _HALO_SCALE := Vector2(1.7, 2.05)
 const _BREATH_SECONDS := 2.1
+const _SHIELD_COLOR := Color(1.0, 0.82, 0.28, 0.55)
+const _SHIELD_SCALE := Vector2(2.15, 2.55)
+const _DEATH_COLOR := Color(1.0, 0.32, 0.38, 0.0)
 const _BOOST_PLUS := preload("res://tower/items/assets/boost_plus.png")
 const _BOOST_MIN := preload("res://tower/items/assets/boost_min.png")
 ## 1254px-Icon, sichtbar etwa so hoch wie der Körper.
@@ -33,9 +39,14 @@ const _BOOST_ICON_SCALE := 0.06
 var _boost_this_step := 0.0
 ## Sprungkraft dieses Laufs. Candies erhöhen sie, Spinnennetze senken sie, der Tod setzt sie auf 0.
 var jump_bonus := 0.0
+## Gestapelte Schild-Ladungen. Kerze +1, Gegner-Treffer −1.
+var shield_charges := 0
 var _facing_left := false
 var _halo: Sprite2D
 var _glow_time := 0.0
+var _shield_ring: Sprite2D
+var _dead := false
+var _hurt_flash := 0.0
 
 @onready var _sprite: AnimatedSprite2D = $Visual/AnimatedSprite2D
 @onready var _visual: Node2D = $Visual
@@ -49,9 +60,12 @@ func _ready() -> void:
 	z_index = 2
 	_apply_frame(&"default")
 	_ensure_halo()
+	shield_changed.emit(shield_charges)
 
 
 func _physics_process(delta: float) -> void:
+	if _dead:
+		return
 	_boost_this_step = 0.0
 	velocity += get_gravity() * delta
 
@@ -66,6 +80,8 @@ func _physics_process(delta: float) -> void:
 
 
 func _process(delta: float) -> void:
+	if _dead:
+		return
 	_update_animation()
 	_update_glow(delta)
 
@@ -77,14 +93,49 @@ func add_jump_bonus(amount: float) -> void:
 	_popup_boost(amount > 0.0)
 
 
+func grant_shield() -> void:
+	if _dead:
+		return
+	shield_charges += 1
+	shield_changed.emit(shield_charges)
+	_refresh_shield_ring()
+
+
+## Gibt true zurück, wenn eine Schild-Ladung den Treffer abgefangen hat.
+func take_hit() -> bool:
+	if _dead:
+		return true
+	if shield_charges > 0:
+		shield_charges -= 1
+		shield_changed.emit(shield_charges)
+		_refresh_shield_ring()
+		_hurt_flash = 0.22
+		return true
+	_begin_death()
+	return false
+
+
 func reset_after_death() -> void:
 	jump_bonus = 0.0
+	shield_charges = 0
+	_dead = false
+	_hurt_flash = 0.0
+	_clear_shield_ring()
+	_visual.rotation = 0.0
+	_visual.scale = Vector2.ONE
+	_visual.modulate = Color.WHITE
+	_visual.position = Vector2.ZERO
+	collision_layer = PHYSICS_LAYER
+	set_physics_process(true)
+	shield_changed.emit(shield_charges)
 	for child in get_children():
 		if str(child.name).begins_with("BoostPopup"):
 			child.queue_free()
 
 
 func jump(boost: float = BOOST_DEFAULT) -> bool:
+	if _dead:
+		return false
 	# Negativer Boost: größerer Betrag bedeutet höher.
 	boost = minf(boost - jump_bonus, MIN_BOOST)
 	var already_boosted := _boost_this_step < 0.0
@@ -96,6 +147,38 @@ func jump(boost: float = BOOST_DEFAULT) -> bool:
 	velocity.y = boost
 	_play_squash(boost)
 	return true
+
+
+func _begin_death() -> void:
+	_dead = true
+	collision_layer = 0
+	velocity = Vector2.ZERO
+	_clear_shield_ring()
+	_play_death_then_emit()
+
+
+func _play_death_then_emit() -> void:
+	await _play_death_animation()
+	if is_inside_tree():
+		died.emit()
+
+
+func _play_death_animation() -> void:
+	_apply_frame(&"fall")
+	_sprite.play(&"fall")
+	_sprite.flip_h = _facing_left
+	_visual.modulate = Color(1.0, 0.55, 0.55, 1.0)
+	var spin := -2.4 if _facing_left else 2.4
+	var tween := create_tween()
+	tween.set_parallel(true)
+	tween.tween_property(_visual, "rotation", spin, 0.58) \
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	tween.tween_property(_visual, "scale", Vector2(0.2, 0.2), 0.58) \
+		.set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_IN)
+	tween.tween_property(_visual, "position:y", _visual.position.y - 56.0, 0.58) \
+		.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	tween.tween_property(_visual, "modulate", _DEATH_COLOR, 0.5).set_delay(0.08)
+	await tween.finished
 
 
 func _update_animation() -> void:
@@ -126,12 +209,21 @@ func _apply_frame(animation_name: StringName) -> void:
 
 func _update_glow(delta: float) -> void:
 	_glow_time += delta
+	if _hurt_flash > 0.0:
+		_hurt_flash = maxf(_hurt_flash - delta, 0.0)
 	var breath := 0.5 + 0.5 * sin(_glow_time * TAU / _BREATH_SECONDS)
 	var wobble := 0.5 + 0.5 * sin(_glow_time * 5.1 + 1.3)
 	var presence := lerpf(breath, wobble, 0.18)
 	_halo.modulate.a = _HALO_COLOR.a * lerpf(0.62, 1.0, presence)
 	var cool := Color(0.84, 0.94, 1.0)
-	_sprite.modulate = Color.WHITE.lerp(cool, lerpf(0.04, 0.1, breath))
+	var base := Color.WHITE.lerp(cool, lerpf(0.04, 0.1, breath))
+	if _hurt_flash > 0.0:
+		base = base.lerp(Color(1.0, 0.78, 0.35), clampf(_hurt_flash / 0.22, 0.0, 1.0))
+	_sprite.modulate = base
+	if _shield_ring and shield_charges > 0:
+		var charge_boost := 1.0 + 0.06 * float(mini(shield_charges, 5) - 1)
+		_shield_ring.modulate.a = _SHIELD_COLOR.a * lerpf(0.55, 1.0, presence)
+		_shield_ring.scale = _SHIELD_SCALE * charge_boost * lerpf(0.96, 1.06, breath)
 
 
 func _ensure_halo() -> void:
@@ -147,6 +239,34 @@ func _ensure_halo() -> void:
 	_halo.z_index = -1
 	_visual.add_child(_halo)
 	_visual.move_child(_halo, 0)
+
+
+func _refresh_shield_ring() -> void:
+	if shield_charges <= 0:
+		_clear_shield_ring()
+		return
+	if _shield_ring and is_instance_valid(_shield_ring):
+		_shield_ring.visible = true
+		_shield_ring.modulate = _SHIELD_COLOR
+		return
+	_shield_ring = Sprite2D.new()
+	_shield_ring.name = "ShieldRing"
+	_shield_ring.texture = _radial_texture(128)
+	_shield_ring.position = _sprite.position
+	_shield_ring.scale = _SHIELD_SCALE
+	_shield_ring.modulate = _SHIELD_COLOR
+	var shield_material := CanvasItemMaterial.new()
+	shield_material.blend_mode = CanvasItemMaterial.BLEND_MODE_ADD
+	_shield_ring.material = shield_material
+	_shield_ring.z_index = -1
+	_visual.add_child(_shield_ring)
+	_visual.move_child(_shield_ring, 0)
+
+
+func _clear_shield_ring() -> void:
+	if _shield_ring and is_instance_valid(_shield_ring):
+		_shield_ring.queue_free()
+	_shield_ring = null
 
 
 static func _radial_texture(size: int) -> GradientTexture2D:

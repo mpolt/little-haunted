@@ -11,6 +11,10 @@ const ITEM_BELL := preload("res://tower/items/bell.tscn")
 const ITEM_SOUL_FLAME := preload("res://tower/items/soul_flame.tscn")
 const ITEM_SPIDER_NET := preload("res://tower/items/spider_net.tscn")
 
+const ENEMY_ZOMBIE := preload("res://tower/enemies/zombie.tscn")
+const ENEMY_BAT := preload("res://tower/enemies/bat.tscn")
+const ENEMY_SPOOK := preload("res://tower/enemies/spook.tscn")
+
 const PLATFORMS_PER_CHUNK: int = 6
 const EDGE_MARGIN: float = 16.0
 ## Abstand unter dem Spieler, auf dem die erste Plattform steht.
@@ -18,6 +22,12 @@ const START_DROP: float = 190.0
 ## Wie weit Items über der Plattform schweben.
 const ITEM_OFFSET_Y: float = 56.0
 const ITEM_OFFSET_X: float = 28.0
+## Fliegende Gegner starten etwas über der Plattformoberfläche.
+const FLY_ENEMY_OFFSET_Y: float = 72.0
+## Zombie-Füße leicht über der Plattform-Collision.
+const ZOMBIE_STAND_OFFSET_Y: float = -8.0
+## Abstand der Zombie-Patrouille zu den Plattformrändern.
+const PATROL_EDGE_INSET: float = 24.0
 
 ## How far above the camera top platforms must reach before we stop spawning ahead.
 const AHEAD_VIEWPORTS: float = 1.0
@@ -47,6 +57,12 @@ const BEHIND_VIEWPORTS: float = 0.5
 @export var weight_bell: int = 2
 @export var weight_soul_flame: int = 1
 @export var weight_spider_net: int = 1
+
+@export_group("Enemies")
+@export_range(0.0, 1.0) var enemy_chance: float = 0.1
+@export var weight_zombie: int = 2
+@export var weight_bat: int = 1
+@export var weight_spook: int = 1
 
 var _view_size: Vector2
 var _cursor_y: float
@@ -168,8 +184,11 @@ func _spawn_chunk() -> void:
 		platform.global_position = Vector2(x, _cursor_y)
 		top_y = _cursor_y
 
-		if not is_start_platform and randf() < item_chance:
-			_spawn_item(chunk, platform.global_position)
+		if not is_start_platform:
+			if randf() < item_chance:
+				_spawn_item(chunk, platform.global_position)
+			elif randf() < enemy_chance:
+				_spawn_enemy(chunk, platform)
 
 		_platforms_spawned += 1
 		if use_boost:
@@ -216,6 +235,36 @@ func _spawn_item(chunk: Node2D, platform_pos: Vector2) -> void:
 	item.global_position = platform_pos + Vector2(side * ITEM_OFFSET_X, -ITEM_OFFSET_Y)
 
 
+func _spawn_enemy(chunk: Node2D, platform: Platform) -> void:
+	var scene := _pick_enemy_scene()
+	if scene == null:
+		return
+	var enemy := scene.instantiate() as Enemy
+	chunk.add_child(enemy)
+
+	var half := _half_width(platform)
+	var platform_pos := platform.global_position
+	if enemy.move_mode == Enemy.MoveMode.PATROL:
+		enemy.global_position = platform_pos + Vector2(0.0, ZOMBIE_STAND_OFFSET_Y)
+		var left_x := platform_pos.x - half + PATROL_EDGE_INSET
+		var right_x := platform_pos.x + half - PATROL_EDGE_INSET
+		enemy.setup_bounds(left_x, right_x)
+	else:
+		enemy.global_position = platform_pos + Vector2(0.0, -FLY_ENEMY_OFFSET_Y)
+		var left_x := EDGE_MARGIN
+		var right_x := _view_size.x - EDGE_MARGIN
+		enemy.setup_bounds(left_x, right_x)
+
+
+func _pick_enemy_scene() -> PackedScene:
+	var entries: Array[Dictionary] = [
+		{"scene": ENEMY_ZOMBIE, "weight": weight_zombie},
+		{"scene": ENEMY_BAT, "weight": weight_bat},
+		{"scene": ENEMY_SPOOK, "weight": weight_spook},
+	]
+	return _pick_weighted(entries)
+
+
 func _pick_item_scene() -> PackedScene:
 	var entries: Array[Dictionary] = [
 		{"scene": ITEM_CANDY, "weight": weight_candy},
@@ -226,7 +275,10 @@ func _pick_item_scene() -> PackedScene:
 	]
 	if _current_tier() >= spider_from_tier:
 		entries.append({"scene": ITEM_SPIDER_NET, "weight": weight_spider_net})
+	return _pick_weighted(entries)
 
+
+func _pick_weighted(entries: Array[Dictionary]) -> PackedScene:
 	var total := 0
 	for entry in entries:
 		total += maxi(int(entry["weight"]), 0)

@@ -4,23 +4,30 @@ const MAIN_SCENE := "res://main/main.tscn"
 const GAME_OVER_SCENE := preload("res://ui/dialogs/game_over_dialog.tscn")
 
 @onready var _camera: UpwardCamera = $UpwardCamera
+@onready var _player: Player = $Player
 
 var _game_over: GameOverDialog
+var _run_ended := false
 
 
 func _ready() -> void:
 	get_tree().paused = false
+	_run_ended = false
 	_game_over = GAME_OVER_SCENE.instantiate()
 	add_child(_game_over)
-	_camera.player_fell.connect(_on_player_fell)
+	_camera.player_fell.connect(_end_run)
+	if _player:
+		_player.died.connect(_end_run)
 	_game_over.restart_pressed.connect(_restart)
 	_game_over.main_menu_pressed.connect(_open_main_menu)
 
 
-func _on_player_fell() -> void:
-	var player := _camera.target as Player
-	if player:
-		player.reset_after_death()
+func _end_run() -> void:
+	if _run_ended:
+		return
+	_run_ended = true
+	if _player:
+		_player.reset_after_death()
 	get_tree().paused = true
 	_game_over.open()
 

@@ -1,0 +1,30 @@
+[gd_scene format=3 uid="uid://c21ydaqbueaea"]
+
+[ext_resource type="Script" path="res://tower/enemies/enemy.gd" id="1_enemy"]
+[ext_resource type="Texture2D" uid="uid://bghpsxdfcpqf1" path="res://tower/enemies/assets/bat.png" id="2_tex"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bat"]
+radius = 22.0
+
+[node name="Bat" type="Area2D"]
+collision_layer = 0
+script = ExtResource("1_enemy")
+move_mode = 1
+speed = 90.0
+bob_amplitude = 14.0
+bob_speed = 4.2
+flap_strength = 0.12
+flap_speed = 14.0
+sprite_scale = 0.08
+faces_left = false
+
+[node name="Visual" type="Node2D" parent="."]
+
+[node name="Sprite" type="Sprite2D" parent="Visual"]
+position = Vector2(0, -8)
+scale = Vector2(0.08, 0.08)
+texture = ExtResource("2_tex")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -6)
+shape = SubResource("CircleShape2D_bat")

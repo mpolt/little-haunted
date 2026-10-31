@@ -15,6 +15,8 @@ enum VanishStyle { PARTICLES, ASCEND }
 @export var souls: int = 0
 ## Änderung der Sprungkraft für diesen Lauf. Candy positiv, Spinnennetz negativ.
 @export var jump_bonus: float = 0.0
+## Kerze: eine gestapelte Schild-Ladung für den Spieler.
+@export var grants_shield: bool = false
 @export var glow: Color = Color(1.45, 1.12, 0.45)
 @export var flicker_strength: float = 0.0
 @export var pulse_speed: float = 2.2
@@ -64,9 +66,11 @@ func _on_body_entered(body: Node2D) -> void:
 	set_deferred("monitoring", false)
 	$CollisionShape2D.set_deferred("disabled", true)
 	GameData.collect(points, souls)
+	var player := body as Player
 	if not is_zero_approx(jump_bonus):
-		(body as Player).add_jump_bonus(jump_bonus)
-		print('add_jump_bonus', jump_bonus)
+		player.add_jump_bonus(jump_bonus)
+	if grants_shield:
+		player.grant_shield()
 	if vanish_style == VanishStyle.PARTICLES:
 		_burst()
 	else:

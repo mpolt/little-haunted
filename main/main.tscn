@@ -274,6 +274,13 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 20
 text = "Test Gegenstände"
 
+[node name="TestEnemiesButton" type="Button" parent="UI/Center/VSplitContainer/Panel/Body"]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(0, 56)
+layout_mode = 2
+theme_override_font_sizes/font_size = 20
+text = "Test Gegner"
+
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1508054859]
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=1323631986]
